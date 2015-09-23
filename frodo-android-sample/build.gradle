@@ -1,0 +1,55 @@
+buildscript {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+  }
+  dependencies {
+    classpath "com.fernandocejas.frodo:frodo-plugin:$project.version"
+    classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
+  }
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.fernandocejas.frodo'
+
+android {
+  buildToolsVersion project.buildToolsVersion
+  compileSdkVersion Integer.parseInt(project.compileSdkVersion)
+
+  defaultConfig {
+    minSdkVersion Integer.parseInt(project.minSdkVersion)
+    targetSdkVersion Integer.parseInt(project.targetSdkVersion)
+  }
+
+  signingConfigs {
+    debug {
+      storeFile file('debug.keystore')
+      storePassword 'android'
+      keyAlias 'androiddebugkey'
+      keyPassword 'android'
+    }
+  }
+
+  buildTypes {
+    debug {
+      applicationIdSuffix ".debug"
+      versionNameSuffix "-debug"
+      signingConfig signingConfigs.debug
+    }
+    release {
+      applicationIdSuffix ".release"
+      versionNameSuffix "-release"
+      signingConfig signingConfigs.debug
+    }
+  }
+}
+
+dependencies {
+  compile 'io.reactivex:rxjava:1.0.14'
+  compile 'io.reactivex:rxandroid:0.25.0'
+}

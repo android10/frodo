@@ -1,0 +1,48 @@
+allprojects {
+  buildscript {
+    repositories {
+      mavenCentral()
+    }
+  }
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+  }
+}
+
+//Configuration Injection for projects
+def buildSrcDir = 'buildsystem'
+apply from: "${buildSrcDir}/inject.gradle"
+
+task wrapper(type: Wrapper) {
+  gradleVersion = project.gradleVersion
+}
+
+task installFrodoApi(type: Exec) {
+  description = 'Assembles and installs Frodo Api in the local maven repository.'
+  commandLine './gradlew', '-p', 'frodo-api/', 'assemble', 'install'
+}
+
+task installFrodoRuntime(type: Exec) {
+  description = 'Assembles and installs Frodo Core Runtime Library in the local maven repository.'
+  commandLine "./gradlew", "-p", "frodo-runtime/", "assembleDebug", "install", "-x", "lint"
+}
+
+task installFrodoPlugin(type: Exec) {
+  description = 'Assembles and installs Frodo Gradle Plugin in the local maven repository.'
+  commandLine "./gradlew", "-p", "frodo-plugin/", "build", "install"
+}
+
+task installFrodoExample(type: Exec,
+    dependsOn: ['installFrodoApi', 'installFrodoRuntime', 'installFrodoPlugin']) {
+  description = 'Assembles and installs Frodo Example Android application.'
+  commandLine "./gradlew", "clean", "-p", "frodo-android-sample/", "assembleDebug", "installDebug"
+}
+installFrodoExample.mustRunAfter('installFrodoApi', 'installFrodofRuntime',
+    'installFrodoPlugin')
+
+task runUnitTests(
+    dependsOn: [':frodo-runtime:cleanTestDebugUnitTest', ':frodo-runtime:testDebugUnitTest']) {
+  description = 'Run unit tests for frodo runtime.'
+}

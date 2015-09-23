@@ -1,0 +1,12 @@
+apply plugin: 'groovy'
+
+dependencies {
+  compile gradleApi()
+  compile localGroovy()
+
+  compile "com.android.tools.build:gradle:${project.androidBuildToolsVersion}"
+  compile "org.aspectj:aspectjtools:${project.aspectjVersion}"
+  compile "org.aspectj:aspectjrt:${project.aspectjVersion}"
+
+  testCompile "junit:junit:${project.junitVersion}"
+}

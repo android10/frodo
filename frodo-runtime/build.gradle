@@ -1,0 +1,90 @@
+import com.android.build.gradle.LibraryPlugin
+import org.aspectj.bridge.IMessage
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
+
+buildscript {
+  dependencies {
+    classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
+    classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
+  }
+}
+
+apply plugin: 'com.android.library'
+apply from: 'deploy.gradle'
+
+dependencies {
+  compile "org.aspectj:aspectjrt:$project.aspectjVersion"
+  compile "io.reactivex:rxjava:$project.rxJavaVersion"
+  compile project(':frodo-api')
+
+  testCompile "junit:junit:$project.junitVersion"
+  testCompile "org.assertj:assertj-core:$project.assertJVersion"
+  testCompile "org.mockito:mockito-core:$project.mockitoVersion"
+  testCompile "org.robolectric:robolectric:$project.robolectricVersion"
+}
+
+android {
+  buildToolsVersion project.buildToolsVersion
+  compileSdkVersion Integer.parseInt(project.compileSdkVersion)
+
+  defaultConfig {
+    versionName project.version
+    minSdkVersion Integer.parseInt(project.minSdkVersion)
+    targetSdkVersion Integer.parseInt(project.targetSdkVersion)
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+
+  compileOptions {
+    targetCompatibility JavaVersion.VERSION_1_7
+    sourceCompatibility JavaVersion.VERSION_1_7
+  }
+}
+
+android.libraryVariants.all { variant ->
+  LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
+
+  //Compile aspects
+  JavaCompile javaCompile = variant.javaCompile
+  javaCompile.doLast {
+    String[] args = ["-showWeaveInfo",
+                     "-1.5",
+                     "-inpath", javaCompile.destinationDir.toString(),
+                     "-aspectpath", javaCompile.classpath.asPath,
+                     "-d", javaCompile.destinationDir.toString(),
+                     "-classpath", javaCompile.classpath.asPath,
+                     "-bootclasspath", plugin.project.android.bootClasspath.join(
+        File.pathSeparator)]
+
+    final MessageHandler handler = new MessageHandler(true);
+    final def log = project.logger
+    new Main().run(args, handler)
+    for (IMessage message : handler.getMessages(null, true)) {
+      switch (message.getKind()) {
+        case IMessage.ABORT:
+        case IMessage.ERROR:
+        case IMessage.FAIL:
+          log.error message.message, message.thrown
+          break;
+        case IMessage.INFO:
+          log.info message.message, message.thrown
+          break;
+        case IMessage.DEBUG:
+          log.debug message.message, message.thrown
+          break;
+      }
+    }
+  }
+
+  //Change aar file name: add version name
+  variant.outputs.each { output ->
+    if (output.outputFile != null && output.outputFile.name.endsWith('.aar')) {
+      def file = output.outputFile
+      def fileName = file.name.replace("${variant.buildType.name}.aar", "${project.version}.aar")
+      output.outputFile = new File(file.parent, fileName)
+    }
+  }
+}

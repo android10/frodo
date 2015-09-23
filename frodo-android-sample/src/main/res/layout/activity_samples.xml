@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".SamplesActivity"
+    >
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/view_vertical_margin"
+      android:gravity="center"
+      android:text="@string/url_github"
+      />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/view_vertical_margin"
+      android:gravity="center"
+      android:text="@string/string_tip_logcat"
+      android:textStyle="bold"
+      />
+
+  <Button
+      android:id="@+id/btnRxLogObservable"
+      style="@style/AppButton"
+      android:layout_marginBottom="@dimen/button_vertical_margin"
+      android:text="@string/btn_text_sample_rx_log_observable"
+      />
+
+  <Button
+      android:id="@+id/btnRxLogSubscriber"
+      style="@style/AppButton"
+      android:layout_marginBottom="@dimen/button_vertical_margin"
+      android:text="@string/btn_text_sample_rx_log_subscriber"
+      />
+
+</LinearLayout>
