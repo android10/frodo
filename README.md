@@ -136,3 +136,4 @@ Here are some useful Gradle commands for executing and installing the library:
  * `./gradlew installGandalfPlugin` - Installs Gandalf gradle plugin.
  * `./gradlew installGandalfExample` - Build and installs everything plus android application sample.
  * `./gradlew runUnitTests` - Run unit tests.
+# test project
