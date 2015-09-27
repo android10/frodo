@@ -39,7 +39,7 @@ task installFrodoExample(type: Exec,
   description = 'Assembles and installs Frodo Example Android application.'
   commandLine "./gradlew", "clean", "-p", "frodo-android-sample/", "assembleDebug", "installDebug"
 }
-installFrodoExample.mustRunAfter('installFrodoApi', 'installFrodofRuntime',
+installFrodoExample.mustRunAfter('installFrodoApi', 'installFrodoRuntime',
     'installFrodoPlugin')
 
 task runUnitTests(
