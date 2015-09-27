@@ -8,10 +8,6 @@ import java.util.List;
  */
 class MessageBuilder {
 
-  protected static final String STATS_MESSAGE_TAG = "GandalfStats";
-  protected static final String STATS_MESSAGE_ACTIVITIES_CREATED = "Activities created: ";
-  protected static final String STATS_MESSAGE_FRAGMENTS_CREATED = "Fragments created: ";
-  protected static final String STATS_MESSAGE_SERVICES_CREATED = "Services created: ";
   private static final String LOG_START = "@";
   private static final String SEPARATOR = " :: ";
   private static final String METHOD_SEPARATOR = "#";
@@ -19,20 +15,11 @@ class MessageBuilder {
   private static final String TEXT_ENCLOSING_SYMBOL = "'";
   private static final String LOG_ENCLOSING_OPEN = "[";
   private static final String LOG_ENCLOSING_CLOSE = "]";
-  private static final String LIBRARY_LABEL = "Gandalf => ";
+  private static final String LIBRARY_LABEL = "Frodo => ";
   private static final String CLASS_LABEL = LOG_START + "InClass" + VALUE_SEPARATOR;
   private static final String METHOD_LABEL = LOG_START + "Method" + VALUE_SEPARATOR;
-  private static final String THREAD_LABEL = LOG_START + "Thread" + VALUE_SEPARATOR;
-  private static final String STATS_LABEL = LOG_START + "Stats" + VALUE_SEPARATOR;
   private static final String TIME_LABEL = LOG_START + "Time" + VALUE_SEPARATOR;
   private static final String TIME_MILLIS = " ms";
-  private static final String TIME_NUMBER_SINGULAR = " time";
-  private static final String TIME_NUMBER_PLURAL = " times";
-  private static final String LABEL_ENTERING = "Entering";
-  private static final String LABEL_EXITING = "Exiting";
-  private static final String LABEL_RETURNING = " returning ";
-  private static final String MAIN_LOOPER_LABEL = LOG_START + "MainLooper";
-  private static final String EXCEPTION_LABEL = "Exception";
   private static final String OBSERVABLE_LABEL = LOG_START + "Observable";
   private static final String EMITTED_ELEMENTS_LABEL = LOG_START + "Emitted" + VALUE_SEPARATOR;
   private static final String LABEL_OBSERVABLE_ON_SUBSCRIBE = "onSubscribe()";
@@ -55,142 +42,8 @@ class MessageBuilder {
   private static final String RECEIVED_ELEMENTS_LABEL = LOG_START + "Received" + VALUE_SEPARATOR;
   private static final String LABEL_ELEMENT_SINGULAR = " element";
   private static final String LABEL_ELEMENT_PLURAL = " elements";
-  private static final String STATS_LABEL_TOTAL_TIMES_EXECUTED = "Executed ";
-  private static final String STATS_LABEL_TOTAL_EXECUTION_TIME = "Total time ";
 
   MessageBuilder() {
-  }
-
-  String buildTraceEnterMessage(FrodoJoinPoint joinPoint) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(LABEL_ENTERING);
-    message.append(SEPARATOR);
-    message.append(METHOD_LABEL);
-    message.append(joinPoint.getMethodName());
-    message.append(buildMethodSignatureWithValues(joinPoint));
-    message.append(SEPARATOR);
-    message.append(THREAD_LABEL);
-    message.append(joinPoint.getExecutionThreadName());
-    message.append(LOG_ENCLOSING_CLOSE);
-
-    return message.toString();
-  }
-
-  String buildTraceExitMessage(FrodoJoinPoint joinPoint, Object returnValue,
-      String executionTimeMillis) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(LABEL_EXITING);
-    message.append(SEPARATOR);
-    message.append(METHOD_LABEL);
-    message.append(joinPoint.getMethodName());
-    message.append(buildMethodReturningValue(returnValue));
-    message.append(SEPARATOR);
-    message.append(TIME_LABEL);
-    message.append(executionTimeMillis);
-    message.append(TIME_MILLIS);
-    message.append(LOG_ENCLOSING_CLOSE);
-
-    return message.toString();
-  }
-
-  String buildLogMessageEverything(FrodoJoinPoint joinPoint, Object returnValue,
-      String executionTimeMillis) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(METHOD_LABEL);
-    message.append(joinPoint.getMethodName());
-    message.append(buildMethodSignatureWithValues(joinPoint));
-    message.append(buildMethodReturningValue(returnValue));
-    message.append(SEPARATOR);
-    message.append(THREAD_LABEL);
-    message.append(joinPoint.getExecutionThreadName());
-    message.append(SEPARATOR);
-    message.append(TIME_LABEL);
-    message.append(executionTimeMillis);
-    message.append(TIME_MILLIS);
-    message.append(LOG_ENCLOSING_CLOSE);
-
-    return message.toString();
-  }
-
-  String buildLogMessageSignature(FrodoJoinPoint joinPoint, Object returnValue) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(METHOD_LABEL);
-    message.append(joinPoint.getMethodName());
-    message.append(buildMethodSignatureWithValues(joinPoint));
-    message.append(buildMethodReturningValue(returnValue));
-    message.append(LOG_ENCLOSING_CLOSE);
-
-    return message.toString();
-  }
-
-  String buildLogMessageThread(FrodoJoinPoint joinPoint) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(METHOD_LABEL);
-    message.append(joinPoint.getMethodName());
-    message.append(buildMethodSignatureWithValues(joinPoint));
-    message.append(SEPARATOR);
-    message.append(THREAD_LABEL);
-    message.append(joinPoint.getExecutionThreadName());
-    message.append(LOG_ENCLOSING_CLOSE);
-
-    return message.toString();
-  }
-
-  String buildLogMessageTime(FrodoJoinPoint joinPoint, String executionTimeMillis) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(METHOD_LABEL);
-    message.append(joinPoint.getMethodName());
-    message.append(buildMethodSignatureWithValues(joinPoint));
-    message.append(SEPARATOR);
-    message.append(TIME_LABEL);
-    message.append(executionTimeMillis);
-    message.append(TIME_MILLIS);
-    message.append(LOG_ENCLOSING_CLOSE);
-
-    return message.toString();
-  }
-
-  String buildInspectStatsMessage(String statsLabel, int statsValue) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(STATS_LABEL);
-    message.append(statsLabel);
-    message.append(String.valueOf(statsValue));
-    message.append(LOG_ENCLOSING_CLOSE);
-
-    return message.toString();
-  }
-
-  String buildDumpMainLooperMessage(String dump) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(MAIN_LOOPER_LABEL);
-    message.append(VALUE_SEPARATOR);
-    message.append(dump);
-    message.append(LOG_ENCLOSING_CLOSE);
-
-    return message.toString();
-  }
-
-  public String buildDumpMainLooperExceptionMessage(Throwable throwable) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(MAIN_LOOPER_LABEL);
-    message.append(SEPARATOR);
-    message.append(EXCEPTION_LABEL);
-    message.append(VALUE_SEPARATOR);
-    message.append(TEXT_ENCLOSING_SYMBOL);
-    message.append(throwable.getMessage());
-    message.append(TEXT_ENCLOSING_SYMBOL);
-    message.append(LOG_ENCLOSING_CLOSE);
-
-    return message.toString();
   }
 
   String buildObservableInfoMessage(FrodoObservable.ObservableInfo observableInfo) {
@@ -433,17 +286,6 @@ class MessageBuilder {
       }
     }
     stringBuilder.append(")");
-
-    return stringBuilder.toString();
-  }
-
-  private String buildMethodReturningValue(Object returnValue) {
-    StringBuilder stringBuilder = new StringBuilder();
-    String stringReturnValue = (returnValue != null) ? String.valueOf(returnValue) : null;
-    if (stringReturnValue != null && stringReturnValue.trim().length() != 0) {
-      stringBuilder.append(LABEL_RETURNING);
-      stringBuilder.append(stringReturnValue);
-    }
 
     return stringBuilder.toString();
   }
