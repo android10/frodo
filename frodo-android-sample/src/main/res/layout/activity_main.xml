@@ -22,7 +22,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:contentDescription="@string/string_content_description"
-      android:src="@drawable/ic_launcher"
+      android:src="@drawable/logo"
       />
 
   <Button
