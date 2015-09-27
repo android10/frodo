@@ -13,7 +13,8 @@ import rx.Subscriber;
 
 @Aspect
 public class LogSubscriber {
-  private static final String CLASS = "within(@RxLogSubscriber *) && if()";
+  private static final String CLASS =
+      "within(@com.fernandocejas.frodo.annotation.RxLogSubscriber *) && if()";
 
   private static final String METHOD_ON_START = "execution(void *.onStart())";
   private static final String METHOD_ON_NEXT = "execution(void *.onNext(..))";

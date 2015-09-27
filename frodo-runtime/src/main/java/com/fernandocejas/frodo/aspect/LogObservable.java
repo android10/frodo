@@ -13,7 +13,7 @@ import rx.Observable;
 @Aspect
 public class LogObservable {
   private static final String METHOD =
-      "execution(@RxLogObservable * *(..)) && if()";
+      "execution(@com.fernandocejas.frodo.annotation.RxLogObservable * *(..)) && if()";
 
   @Pointcut(METHOD)
   public static boolean methodAnnotatedWithRxLogObservable(ProceedingJoinPoint joinPoint) {
