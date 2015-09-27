@@ -34,12 +34,12 @@ task installFrodoPlugin(type: Exec) {
   commandLine "./gradlew", "-p", "frodo-plugin/", "build", "install"
 }
 
-task installFrodoExample(type: Exec,
+task installFrodoAndroidSample(type: Exec,
     dependsOn: ['installFrodoApi', 'installFrodoRuntime', 'installFrodoPlugin']) {
   description = 'Assembles and installs Frodo Example Android application.'
   commandLine "./gradlew", "clean", "-p", "frodo-android-sample/", "assembleDebug", "installDebug"
 }
-installFrodoExample.mustRunAfter('installFrodoApi', 'installFrodoRuntime',
+installFrodoAndroidSample.mustRunAfter('installFrodoApi', 'installFrodoRuntime',
     'installFrodoPlugin')
 
 task runUnitTests(
