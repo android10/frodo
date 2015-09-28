@@ -1,11 +1,12 @@
 package com.fernandocejas.frodo.aspect;
 
-import com.fernandocejas.frodo.JavaUnitTest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import rx.Observable;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +14,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public class LogObservableTest extends JavaUnitTest {
+@RunWith(MockitoJUnitRunner.class)
+public class LogObservableTest {
 
   @Mock private ProceedingJoinPoint proceedingJoinPoint;
   @Mock private MethodSignature signature;
