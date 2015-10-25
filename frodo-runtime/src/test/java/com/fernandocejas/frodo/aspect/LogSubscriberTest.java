@@ -21,7 +21,6 @@ public class LogSubscriberTest {
 
   private LogSubscriber logSubscriber;
 
-  //TODO: create a test joinPoint
   @Mock private JoinPoint joinPoint;
   @Mock private Counter counter;
   @Mock private StopWatch stopWatch;
