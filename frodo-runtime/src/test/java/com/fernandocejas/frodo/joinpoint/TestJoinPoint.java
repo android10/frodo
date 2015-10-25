@@ -20,7 +20,6 @@ public class TestJoinPoint implements JoinPoint {
   private final String[] methodParameterNames;
   private final Object[] methodParameterValues;
 
-
   private TestJoinPoint(Builder builder) {
     this.declaringType = builder.declaringType;
     this.methodName = builder.methodName;
@@ -50,7 +49,12 @@ public class TestJoinPoint implements JoinPoint {
   }
 
   @Override public Object getTarget() {
-    return methodName;
+    try {
+      return declaringType.newInstance();
+    } catch (InstantiationException | IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   @Override public Object[] getArgs() {
@@ -78,9 +82,13 @@ public class TestJoinPoint implements JoinPoint {
     private final String methodName;
 
     private Class methodReturnType;
-    private Class[] methodParameterTypes;
-    private String[] methodParameterNames;
-    private Object[] methodParameterValues;
+    private Class[] methodParameterTypes = new Class[]{};
+    private String[] methodParameterNames = new String[]{};
+    private Object[] methodParameterValues = new Object[]{};
+
+    public Builder(Class declaringType) {
+      this(declaringType, "dummyMethod");
+    }
 
     public Builder(Class declaringType, String methodName) {
       this.declaringType = declaringType;

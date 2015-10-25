@@ -6,12 +6,23 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.aspectj.lang.reflect.SourceLocation;
 import org.aspectj.runtime.internal.AroundClosure;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class TestProceedingJoinPoint implements ProceedingJoinPoint {
 
   private final TestJoinPoint testJoinPoint;
 
+  //Used for assertions
+  private boolean proceedMethodCalled;
+  private boolean proceedMethodCalledWithArgs;
+  private Object[] proceedMethodArgs;
+
   public TestProceedingJoinPoint(TestJoinPoint testJoinPoint) {
     this.testJoinPoint = testJoinPoint;
+
+    proceedMethodCalled = false;
+    proceedMethodCalledWithArgs = false;
+    proceedMethodArgs = new Object[]{};
   }
 
   @Override public void set$AroundClosure(AroundClosure arc) {
@@ -19,10 +30,13 @@ public class TestProceedingJoinPoint implements ProceedingJoinPoint {
   }
 
   @Override public Object proceed() throws Throwable {
+    proceedMethodCalled = true;
     return ((MethodSignature) testJoinPoint.getSignature()).getReturnType();
   }
 
   @Override public Object proceed(Object[] args) throws Throwable {
+    proceedMethodCalledWithArgs = true;
+    proceedMethodArgs = args;
     return ((MethodSignature) testJoinPoint.getSignature()).getReturnType();
   }
 
@@ -60,5 +74,17 @@ public class TestProceedingJoinPoint implements ProceedingJoinPoint {
 
   @Override public StaticPart getStaticPart() {
     return testJoinPoint.getStaticPart();
+  }
+
+  public void assertProceedMethodCalled() {
+    assertThat(proceedMethodCalled).isTrue();
+    proceedMethodCalled = false;
+  }
+
+  public void assertProceedMethodCalledWithArgs(Object[] args) {
+    assertThat(proceedMethodCalledWithArgs).isTrue();
+    assertThat(proceedMethodArgs).isEqualTo(args);
+    proceedMethodCalledWithArgs = false;
+    proceedMethodArgs = new Object[]{};
   }
 }
