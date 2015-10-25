@@ -1,35 +1,51 @@
 package com.fernandocejas.frodo.aspect;
 
+import com.fernandocejas.frodo.joinpoint.TestJoinPoint;
+import com.fernandocejas.frodo.joinpoint.TestProceedingJoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import rx.Observable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LogObservableTest {
 
-  @Mock private ProceedingJoinPoint proceedingJoinPoint;
-  @Mock private MethodSignature signature;
+  @Test
+  public void annotatedMethodMustCheckReturnType() {
+    final ProceedingJoinPoint proceedingJoinPoint = mock(ProceedingJoinPoint.class);
+    final MethodSignature methodSignature = mock(MethodSignature.class);
 
-  @Before
-  public void setUp() {
-    given(proceedingJoinPoint.getSignature()).willReturn(signature);
-    given(signature.getReturnType()).willReturn(Observable.class);
+    given(proceedingJoinPoint.getSignature()).willReturn(methodSignature);
+    given(methodSignature.getReturnType()).willReturn(Observable.class);
+
+    assertThat(LogObservable.methodAnnotatedWithRxLogObservable(proceedingJoinPoint)).isTrue();
+    verify(methodSignature).getReturnType();
+    verifyNoMoreInteractions(methodSignature);
   }
 
   @Test
-  public void annotatedMethodMustReturnObservable() {
+  public void shouldWeaveAroundMethodReturningObservable() {
+    final TestJoinPoint joinPoint = new TestJoinPoint.Builder(this.getClass(), "dummyMethod")
+        .withReturnType(Observable.class).build();
+    final TestProceedingJoinPoint proceedingJoinPoint = new TestProceedingJoinPoint(joinPoint);
+
     assertThat(LogObservable.methodAnnotatedWithRxLogObservable(proceedingJoinPoint)).isTrue();
-    verify(signature).getReturnType();
-    verifyNoMoreInteractions(signature);
+  }
+
+  @Test
+  public void shouldNotWeaveAroundMethodReturningOtherTypeThanObservable() {
+    final TestJoinPoint joinPoint = new TestJoinPoint.Builder(this.getClass(), "dummyMethod")
+        .withReturnType(this.getClass()).build();
+    final TestProceedingJoinPoint proceedingJoinPoint = new TestProceedingJoinPoint(joinPoint);
+
+    assertThat(LogObservable.methodAnnotatedWithRxLogObservable(proceedingJoinPoint)).isFalse();
   }
 }
