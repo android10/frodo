@@ -1,6 +1,5 @@
 package com.fernandocejas.frodo.joinpoint;
 
-import java.lang.reflect.Method;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -10,31 +9,32 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.BDDMockito.given;
 
-class TestJoinPoint implements JoinPoint {
+public class TestJoinPoint implements JoinPoint {
 
   @Mock private MethodSignature methodSignature;
-  @Mock private Method method;
 
   private final Class declaringType;
   private final String methodName;
+  private final Class methodReturnType;
   private final Class[] methodParameterTypes;
   private final String[] methodParameterNames;
   private final Object[] methodParameterValues;
 
-  private TestJoinPoint(JoinPointBuilder builder) {
+
+  private TestJoinPoint(Builder builder) {
     this.declaringType = builder.declaringType;
     this.methodName = builder.methodName;
+    this.methodReturnType = builder.methodReturnType;
     this.methodParameterTypes = builder.methodParameterTypes;
     this.methodParameterNames = builder.methodParameterNames;
     this.methodParameterValues = builder.methodParameterValues;
 
     MockitoAnnotations.initMocks(this);
-    given(method.getGenericReturnType()).willReturn(declaringType);
     given(methodSignature.getDeclaringType()).willReturn(declaringType);
     given(methodSignature.getName()).willReturn(methodName);
     given(methodSignature.getParameterTypes()).willReturn(methodParameterTypes);
     given(methodSignature.getParameterNames()).willReturn(methodParameterNames);
-    given(methodSignature.getMethod()).willReturn(method);
+    given(methodSignature.getReturnType()).willReturn(methodReturnType);
   }
 
   @Override public String toShortString() {
@@ -73,35 +73,41 @@ class TestJoinPoint implements JoinPoint {
     return null;
   }
 
-  static class JoinPointBuilder {
+  public static class Builder {
     private final Class declaringType;
     private final String methodName;
 
+    private Class methodReturnType;
     private Class[] methodParameterTypes;
     private String[] methodParameterNames;
     private Object[] methodParameterValues;
 
-    JoinPointBuilder(Class declaringType, String methodName) {
+    public Builder(Class declaringType, String methodName) {
       this.declaringType = declaringType;
       this.methodName = methodName;
     }
 
-    JoinPointBuilder withParamTypes(Class... paramTypes) {
+    public Builder withReturnType(Class returnType) {
+      this.methodReturnType = returnType;
+      return this;
+    }
+
+    public Builder withParamTypes(Class... paramTypes) {
       this.methodParameterTypes = paramTypes;
       return this;
     }
 
-    JoinPointBuilder withParamNames(String... paramNames) {
+    public Builder withParamNames(String... paramNames) {
       this.methodParameterNames = paramNames;
       return this;
     }
 
-    JoinPointBuilder withParamValues(Object... paramValues) {
+    public Builder withParamValues(Object... paramValues) {
       this.methodParameterValues = paramValues;
       return this;
     }
 
-    TestJoinPoint build() {
+    public TestJoinPoint build() {
       return new TestJoinPoint(this);
     }
   }
