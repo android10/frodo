@@ -1,5 +1,7 @@
 package com.fernandocejas.frodo.joinpoint;
 
+import java.lang.reflect.Method;
+import java.util.Observable;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -13,9 +15,12 @@ public class TestJoinPoint implements JoinPoint {
 
   @Mock private MethodSignature methodSignature;
 
+  private Method method;
+
   private final Class declaringType;
   private final String methodName;
   private final Class methodReturnType;
+  private final String methodReturnValue;
   private final Class[] methodParameterTypes;
   private final String[] methodParameterNames;
   private final Object[] methodParameterValues;
@@ -24,16 +29,22 @@ public class TestJoinPoint implements JoinPoint {
     this.declaringType = builder.declaringType;
     this.methodName = builder.methodName;
     this.methodReturnType = builder.methodReturnType;
+    this.methodReturnValue = builder.methodReturnValue;
     this.methodParameterTypes = builder.methodParameterTypes;
     this.methodParameterNames = builder.methodParameterNames;
     this.methodParameterValues = builder.methodParameterValues;
 
     MockitoAnnotations.initMocks(this);
-    given(methodSignature.getDeclaringType()).willReturn(declaringType);
-    given(methodSignature.getName()).willReturn(methodName);
-    given(methodSignature.getParameterTypes()).willReturn(methodParameterTypes);
-    given(methodSignature.getParameterNames()).willReturn(methodParameterNames);
-    given(methodSignature.getReturnType()).willReturn(methodReturnType);
+    try {
+      given(methodSignature.getDeclaringType()).willReturn(declaringType);
+      given(methodSignature.getName()).willReturn(methodName);
+      given(methodSignature.getParameterTypes()).willReturn(methodParameterTypes);
+      given(methodSignature.getParameterNames()).willReturn(methodParameterNames);
+      given(methodSignature.getReturnType()).willReturn(methodReturnType);
+      given(methodSignature.getMethod()).willReturn(this.getClass().getMethod("toShortString"));
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override public String toShortString() {
@@ -77,11 +88,20 @@ public class TestJoinPoint implements JoinPoint {
     return null;
   }
 
+  public Class getMethodReturnType() {
+    return methodReturnType;
+  }
+
+  public String getMethodReturnValue() {
+    return methodReturnValue;
+  }
+
   public static class Builder {
     private final Class declaringType;
     private final String methodName;
 
-    private Class methodReturnType;
+    private Class methodReturnType = Observable.class;
+    private String methodReturnValue = "android10";
     private Class[] methodParameterTypes = new Class[]{};
     private String[] methodParameterNames = new String[]{};
     private Object[] methodParameterValues = new Object[]{};
@@ -97,6 +117,11 @@ public class TestJoinPoint implements JoinPoint {
 
     public Builder withReturnType(Class returnType) {
       this.methodReturnType = returnType;
+      return this;
+    }
+
+    public Builder withReturnValue(String returnValue) {
+      this.methodReturnValue = returnValue;
       return this;
     }
 

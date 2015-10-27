@@ -5,6 +5,7 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.aspectj.lang.reflect.SourceLocation;
 import org.aspectj.runtime.internal.AroundClosure;
+import rx.Observable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,19 +26,27 @@ public class TestProceedingJoinPoint implements ProceedingJoinPoint {
     proceedMethodArgs = new Object[]{};
   }
 
+  private Object buildReturnType() throws InstantiationException, IllegalAccessException {
+    final Class returnType = ((MethodSignature) testJoinPoint.getSignature()).getReturnType();
+    if (returnType == Observable.class) {
+      return Observable.just(testJoinPoint.getMethodReturnValue());
+    }
+    return returnType.newInstance();
+  }
+
   @Override public void set$AroundClosure(AroundClosure arc) {
     //do nothing
   }
 
   @Override public Object proceed() throws Throwable {
     proceedMethodCalled = true;
-    return ((MethodSignature) testJoinPoint.getSignature()).getReturnType();
+    return buildReturnType();
   }
 
   @Override public Object proceed(Object[] args) throws Throwable {
     proceedMethodCalledWithArgs = true;
     proceedMethodArgs = args;
-    return ((MethodSignature) testJoinPoint.getSignature()).getReturnType();
+    return buildReturnType();
   }
 
   @Override public String toShortString() {
@@ -74,6 +83,14 @@ public class TestProceedingJoinPoint implements ProceedingJoinPoint {
 
   @Override public StaticPart getStaticPart() {
     return testJoinPoint.getStaticPart();
+  }
+
+  public Class getMethodReturnType() {
+    return testJoinPoint.getMethodReturnType();
+  }
+
+  public String getMethodReturnValue() {
+    return testJoinPoint.getMethodReturnValue();
   }
 
   public void assertProceedMethodCalled() {

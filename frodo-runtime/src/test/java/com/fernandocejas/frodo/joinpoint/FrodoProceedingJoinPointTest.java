@@ -1,5 +1,6 @@
 package com.fernandocejas.frodo.joinpoint;
 
+import java.util.Observable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +16,7 @@ public class FrodoProceedingJoinPointTest {
 
   @Before
   public void setUp() throws Exception {
-    joinPoint = new TestJoinPoint.Builder(this.getClass()).build();
+    joinPoint = new TestJoinPoint.Builder(this.getClass()).withReturnType(Observable.class).build();
     proceedingJoinPoint = new TestProceedingJoinPoint(joinPoint);
     frodoJoinPoint = new FrodoProceedingJoinPoint(proceedingJoinPoint);
   }
