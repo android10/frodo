@@ -33,7 +33,7 @@ public class LogObservableTest {
 
   @Test
   public void shouldWeaveAroundMethodReturningObservable() {
-    final TestJoinPoint joinPoint = new TestJoinPoint.Builder(this.getClass(), "dummyMethod")
+    final TestJoinPoint joinPoint = new TestJoinPoint.Builder(this.getClass(), "toString")
         .withReturnType(Observable.class).build();
     final TestProceedingJoinPoint proceedingJoinPoint = new TestProceedingJoinPoint(joinPoint);
 
@@ -42,7 +42,7 @@ public class LogObservableTest {
 
   @Test
   public void shouldNotWeaveAroundMethodReturningOtherTypeThanObservable() {
-    final TestJoinPoint joinPoint = new TestJoinPoint.Builder(this.getClass(), "dummyMethod")
+    final TestJoinPoint joinPoint = new TestJoinPoint.Builder(this.getClass(), "toString")
         .withReturnType(this.getClass()).build();
     final TestProceedingJoinPoint proceedingJoinPoint = new TestProceedingJoinPoint(joinPoint);
 

@@ -60,6 +60,10 @@ public class FrodoJoinPoint {
     return methodName;
   }
 
+  public List<Class> getMethodParamTypesList() {
+    return methodParamTypesList;
+  }
+
   public List<String> getMethodParamNamesList() {
     return methodParamNamesList;
   }

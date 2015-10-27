@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.BDDMockito.given;
 
+@SuppressWarnings("unchecked")
 public class TestJoinPoint implements JoinPoint {
 
   @Mock private MethodSignature methodSignature;
@@ -41,7 +42,7 @@ public class TestJoinPoint implements JoinPoint {
       given(methodSignature.getParameterTypes()).willReturn(methodParameterTypes);
       given(methodSignature.getParameterNames()).willReturn(methodParameterNames);
       given(methodSignature.getReturnType()).willReturn(methodReturnType);
-      given(methodSignature.getMethod()).willReturn(this.getClass().getMethod("toShortString"));
+      given(methodSignature.getMethod()).willReturn(declaringType.getMethod(methodName));
     } catch (NoSuchMethodException e) {
       e.printStackTrace();
     }
@@ -107,7 +108,7 @@ public class TestJoinPoint implements JoinPoint {
     private Object[] methodParameterValues = new Object[]{};
 
     public Builder(Class declaringType) {
-      this(declaringType, "dummyMethod");
+      this(declaringType, "toString");
     }
 
     public Builder(Class declaringType, String methodName) {
