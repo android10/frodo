@@ -1,3 +1,0 @@
-dependencies {
-  compile "com.google.android:android:${project.androidVersion}"
-}
