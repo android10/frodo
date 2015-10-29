@@ -55,8 +55,9 @@ public class MessageManager {
     this.printMessage(observableInfo.getClassSimpleName(), message);
   }
 
-  public void printObservableOnUnsubscribe(FrodoObservable.ObservableInfo observableInfo) {
-    final String message = messageBuilder.buildObservableOnUnsubscribeMessage(observableInfo);
+  public void printObservableOnUnsubscribe(FrodoObservable.ObservableInfo observableInfo,
+      String threadName) {
+    final String message = messageBuilder.buildObservableOnUnsubscribeMessage(observableInfo, threadName);
     this.printMessage(observableInfo.getClassSimpleName(), message);
   }
 

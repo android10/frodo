@@ -57,7 +57,7 @@ public class FrodoObservable {
         .doOnUnsubscribe(new Action0() {
           @Override
           public void call() {
-            messageManager.printObservableOnUnsubscribe(observableInfo);
+            messageManager.printObservableOnUnsubscribe(observableInfo, Thread.currentThread().getName());
           }
         })
         .doOnTerminate(new Action0() {

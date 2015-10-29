@@ -70,8 +70,10 @@ public class FrodoObservableTest {
         anyString());
     verify(messageManager).printObservableOnNext(any(FrodoObservable.ObservableInfo.class),
         anyString());
-    verify(messageManager).printObservableOnCompleted(any(FrodoObservable.ObservableInfo.class));
-    verify(messageManager).printObservableOnUnsubscribe(any(FrodoObservable.ObservableInfo.class));
+    verify(messageManager).printObservableOnCompleted(any(FrodoObservable.ObservableInfo.class),
+        Thread.currentThread().getName());
+    verify(messageManager).printObservableOnUnsubscribe(any(FrodoObservable.ObservableInfo.class),
+        Thread.currentThread().getName());
     verify(messageManager).printObservableOnTerminate(any(FrodoObservable.ObservableInfo.class),
         anyLong(), anyInt());
   }

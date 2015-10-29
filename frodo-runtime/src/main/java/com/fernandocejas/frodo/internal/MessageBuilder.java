@@ -80,8 +80,7 @@ class MessageBuilder {
     return message.toString();
   }
 
-  <T> String buildObservableOnNextMessage(FrodoObservable.ObservableInfo observableInfo,
-      T value) {
+  <T> String buildObservableOnNextMessage(FrodoObservable.ObservableInfo observableInfo, T value) {
     StringBuilder message = new StringBuilder(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
     message.append(OBSERVABLE_LABEL);
@@ -149,7 +148,8 @@ class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableOnUnsubscribeMessage(FrodoObservable.ObservableInfo observableInfo) {
+  String buildObservableOnUnsubscribeMessage(FrodoObservable.ObservableInfo observableInfo,
+      String threadName) {
     StringBuilder message = new StringBuilder(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
     message.append(OBSERVABLE_LABEL);
@@ -157,6 +157,9 @@ class MessageBuilder {
     message.append(observableInfo.getMethodName());
     message.append(VALUE_SEPARATOR);
     message.append(LABEL_OBSERVABLE_ON_UNSUBSCRIBE);
+    message.append(SEPARATOR);
+    message.append(LABEL_SUBSCRIBER_OBSERVE_ON);
+    message.append(threadName);
     message.append(LOG_ENCLOSING_CLOSE);
 
     return message.toString();
