@@ -10,3 +10,13 @@ dependencies {
 
   testCompile "junit:junit:${project.junitVersion}"
 }
+
+groovydoc {
+  includePrivate = false
+}
+
+//noinspection GroovyAssignabilityCheck
+task javadocJar(type: Jar, dependsOn: ['groovydoc']) {
+  classifier = 'javadoc'
+  from 'build/docs/groovydoc'
+}
