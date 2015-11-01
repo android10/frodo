@@ -1,8 +1,17 @@
-[":frodo-api", ":frodo-plugin"].each { name ->
+if (JavaVersion.current().isJava8Compatible()) {
+  allprojects {
+    tasks.withType(Javadoc) {
+      options.addStringOption('Xdoclint:none', '-quiet')
+    }
+  }
+}
 
+[":frodo-api", ":frodo-plugin"].each { name ->
   project(name) {
     apply plugin: 'maven'
     apply plugin: 'java'
+    apply plugin: 'com.novoda.bintray-release'
+    apply from: "../buildsystem/deploy.gradle"
 
     targetCompatibility = JavaVersion.VERSION_1_7
     sourceCompatibility = JavaVersion.VERSION_1_7
@@ -16,15 +25,6 @@
     artifacts {
       archives jar
       archives sourcesJar
-    }
-
-    uploadArchives {
-      repositories {
-        mavenDeployer {
-          repository(url: project.releasesRepoUrl)
-          snapshotRepository(url: project.snapshotsRepoUrl)
-        }
-      }
     }
   }
 }

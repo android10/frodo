@@ -1,0 +1,8 @@
+publish {
+  userOrg = project.user
+  groupId = project.group
+  artifactId = project.name
+  publishVersion = project.version
+  desc = 'Library based on Aspects for Logging RxJava Objects based on Gradle Plugin.'
+  website = project.website
+}
