@@ -1,6 +1,16 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath "com.novoda:bintray-release:$project.bintrayPluginVersion"
+  }
+}
+
 allprojects {
   buildscript {
     repositories {
+      jcenter()
       mavenCentral()
     }
   }
@@ -11,12 +21,16 @@ allprojects {
   }
 }
 
-//Configuration Injection for projects
 def buildSrcDir = 'buildsystem'
 apply from: "${buildSrcDir}/inject.gradle"
 
 task wrapper(type: Wrapper) {
   gradleVersion = project.gradleVersion
+}
+
+task cleanFrodo(type: Exec) {
+  description = 'Cleans all Frodo projects.'
+  commandLine './gradlew', 'clean'
 }
 
 task installFrodoApi(type: Exec) {
@@ -46,3 +60,34 @@ task runUnitTests(
     dependsOn: [':frodo-runtime:cleanTestDebugUnitTest', ':frodo-runtime:testDebugUnitTest']) {
   description = 'Run unit tests for frodo runtime.'
 }
+
+task publishFrodoPlugin(type: Exec, dependsOn: ['frodo-plugin:javadocJar']) {
+  description = 'Publishes Frodo Gradle Plugin.'
+  commandLine "./gradlew", "-p", "frodo-plugin/", "build", "bintrayUpload",
+      "-PbintrayUser=$System.env.BINTRAY_USERNAME",
+      "-PbintrayKey=$System.env.BINTRAY_KEY",
+      "-PdryRun=false"
+}
+
+task publishFrodoApi(type: Exec, dependsOn: ['frodo-api:javadocJar']) {
+  description = 'Publishes Frodo Library Api.'
+  commandLine "./gradlew", "-p", "frodo-api/", "build", "bintrayUpload",
+      "-PbintrayUser=$System.env.BINTRAY_USERNAME",
+      "-PbintrayKey=$System.env.BINTRAY_KEY",
+      "-PdryRun=false"
+}
+
+task publishFrodoRuntime(type: Exec) {
+  description = 'Publishes Frodo Core Runtime Library.'
+  commandLine "./gradlew", "-p", "frodo-runtime/", "build", "bintrayUpload",
+      "-PbintrayUser=$System.env.BINTRAY_USERNAME",
+      "-PbintrayKey=$System.env.BINTRAY_KEY",
+      "-PdryRun=false"
+}
+
+task publishFrodo(
+    dependsOn: ['cleanFrodo', 'publishFrodoPlugin', 'publishFrodoApi', 'publishFrodoRuntime']) {
+  description = 'Publishes a new Frodo Library version to Bintray.'
+}
+publishFrodo.mustRunAfter('cleanFrodo', 'publishFrodoPlugin', 'publishFrodoApi',
+    'publishFrodoRuntime')

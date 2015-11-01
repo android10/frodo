@@ -4,6 +4,9 @@ import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
 
 buildscript {
+  repositories {
+    jcenter()
+  }
   dependencies {
     classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
     classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
@@ -11,7 +14,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply from: 'deploy.gradle'
+apply plugin: 'com.novoda.bintray-release'
 
 dependencies {
   compile "org.aspectj:aspectjrt:$project.aspectjVersion"
@@ -32,6 +35,7 @@ android {
     versionName project.version
     minSdkVersion Integer.parseInt(project.minSdkVersion)
     targetSdkVersion Integer.parseInt(project.targetSdkVersion)
+    archivesBaseName = "frodo-runtime-${project.version}.aar"
   }
 
   lintOptions {
@@ -79,12 +83,35 @@ android.libraryVariants.all { variant ->
     }
   }
 
-  //Change aar file name: add version name
-  variant.outputs.each { output ->
-    if (output.outputFile != null && output.outputFile.name.endsWith('.aar')) {
-      def file = output.outputFile
-      def fileName = file.name.replace("${variant.buildType.name}.aar", "${project.version}.aar")
-      output.outputFile = new File(file.parent, fileName)
+  //Change aar file name: add version name only for debug version (development)
+  if (variant.name == 'debug') {
+    variant.outputs.each { output ->
+      if (output.outputFile != null && output.outputFile.name.endsWith('.aar')) {
+        def file = output.outputFile
+        def fileName = file.name.replace("${variant.buildType.name}.aar", "${project.version}.aar")
+        output.outputFile = new File(file.parent, fileName)
+      }
     }
   }
+}
+
+//Install in maven local repository
+task install(type: Exec, dependsOn: assemble) {
+  description = "Installs Frodo generated artifact in the local maven repository."
+  executable = 'mvn'
+  args = ["install:install-file",
+          "-DgroupId=${project.group}",
+          "-DartifactId=${project.name}",
+          "-Dversion=${project.version}",
+          "-Dpackaging=aar",
+          "-Dfile=build/outputs/aar/frodo-runtime-${project.version}.aar"]
+}
+
+publish {
+  userOrg = project.user
+  groupId = project.group
+  artifactId = project.name
+  publishVersion = project.version
+  desc = 'Library based on Aspects for Logging RxJava Objects based on Gradle Plugin.'
+  website = project.website
 }
