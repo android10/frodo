@@ -81,16 +81,23 @@ apply plugin: 'com.fernandocejas.frodo
 Under the hoods
 -----------------
 
-You can check these articles:
-articles
-And this presentation:
-presentation
+[Aspect Oriented Programming in Android](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)
+
+[Presentation AOP + Frodo](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)
+
 
 <br>
 Known issues
 -----------------
 
-Known issues
+1 - Multi module setup (application + android library) will not log annotated methods/classes from Android Library Module but will do it on Android Application Module. The reason behind this, is that the Android Gradle Plugin will build all Android Libraries as release versions, for instance, Frodo is not able to weave any code on the annotated methods/classes (Remember that only weaves in debug versions). There is a workaround for forcing debug versions of your Android Libraries (just be careful in case this is forgotten and you end up shipping a version of your app with RxJava Logging enabled) by adding this line in your ```build.gradle``` file:
+
+```java
+android {
+  defaultPublishConfig "debug"
+}
+```
+
 
 <br>
 Local Development
