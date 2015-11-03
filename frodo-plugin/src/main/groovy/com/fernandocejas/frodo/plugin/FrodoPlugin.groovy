@@ -15,10 +15,18 @@ class FrodoPlugin implements Plugin<Project> {
   void apply(Project project) {
     verifyRequiredPlugins project
 
+    project.buildscript.repositories.maven {
+      url "http://dl.bintray.com/android10/maven"
+    }
+
+    project.repositories.maven {
+      url "http://dl.bintray.com/android10/maven"
+    }
+
     project.dependencies {
-      compile "com.fernandocejas.frodo:frodo-api:0.8.0"
-      debugCompile "org.aspectj:aspectjrt:1.8.6"
-      debugCompile "com.fernandocejas.frodo:frodo-runtime:0.8.0"
+      compile "com.fernandocejas.frodo:frodo-api:0.8.2"
+      debugCompile "org.aspectj:aspectjrt:1.8.7"
+      debugCompile "com.fernandocejas.frodo:frodo-runtime:0.8.2"
     }
 
     def variants = getProjectVariants project
