@@ -15,7 +15,7 @@ Main Features
 
 - **@RxLogObservable:** Annotated methods which return ```rx.Observables``` will print the following information on android logcat when emitting items:
 
-image
+<img width="767" alt="frodo_observable" src="https://cloud.githubusercontent.com/assets/1360604/10925000/ee937c08-828a-11e5-97ac-bb13b7d469f8.png">
 
 ```java
     @RxLogObservable
@@ -27,7 +27,7 @@ image
 <br>
 - **@RxLogSubscriber:** Annotated classes which are of type ```rx.Subscriber``` will print the following information on android logcat when receiving items from an ```rx.Observable```:
 
-image
+<img width="980" alt="frodo_subscriber" src="https://cloud.githubusercontent.com/assets/1360604/10925010/fa76523e-828a-11e5-8607-1611aef61add.png">
 
 ```java
 @RxLogSubscriber
