@@ -1,4 +1,23 @@
+buildscript {
+  repositories {
+    maven {
+      url  "http://dl.bintray.com/android10/maven"
+    }
+  }
+}
+
+repositories {
+  maven {
+    url  "http://dl.bintray.com/android10/maven"
+  }
+}
+
 apply plugin: 'groovy'
+
+//noinspection GroovyUnusedAssignment
+targetCompatibility = JavaVersion.VERSION_1_7
+//noinspection GroovyUnusedAssignment
+sourceCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
   compile gradleApi()

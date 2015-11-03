@@ -6,10 +6,19 @@ import org.aspectj.tools.ajc.Main
 buildscript {
   repositories {
     jcenter()
+    maven {
+      url  "http://dl.bintray.com/android10/maven"
+    }
   }
   dependencies {
     classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
     classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
+  }
+}
+
+repositories {
+  maven {
+    url  "http://dl.bintray.com/android10/maven"
   }
 }
 
@@ -35,7 +44,6 @@ android {
     versionName project.version
     minSdkVersion Integer.parseInt(project.minSdkVersion)
     targetSdkVersion Integer.parseInt(project.targetSdkVersion)
-    archivesBaseName = "frodo-runtime-${project.version}.aar"
   }
 
   lintOptions {

@@ -1,3 +1,17 @@
+buildscript {
+  repositories {
+    maven {
+      url  "http://dl.bintray.com/android10/maven"
+    }
+  }
+}
+
+repositories {
+  maven {
+    url  "http://dl.bintray.com/android10/maven"
+  }
+}
+
 //noinspection GroovyAssignabilityCheck
 task javadocJar(type: Jar, dependsOn: ['javadoc']) {
   classifier = 'javadoc'
