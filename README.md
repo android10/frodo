@@ -6,8 +6,8 @@ Frodo for Android
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0) [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![Download](https://api.bintray.com/packages/android10/maven/frodo-plugin/images/download.svg) ](https://bintray.com/android10/maven/frodo-plugin/_latestVersion)
 
-Frodo is an android library based on Gradle Plugin, mainly used for logging outputs on the logcat.
-It generates and weaves code based on annotations only on ```debug``` versions of the application where the plugin is applied, for instance is safe to persist any Frodo annotation in the codebase.
+```Frodo``` is an android library inspired by Jake Wharton's [Hugo](https://github.com/JakeWharton/hugo), mainly used for logging [RxJava](https://github.com/ReactiveX/RxJava) [Observables](http://reactivex.io/documentation/observable.html) and [Subscribers](http://reactivex.io/RxJava/javadoc/rx/Subscriber.html) outputs on the logcat.
+It generates and weaves code based on annotations only on ```debug``` versions of the application where the plugin is applied, for instance, it is safe to persist any ```Frodo``` annotation in the codebase.
 
 <br>
 Main Features
@@ -116,7 +116,7 @@ https://github.com/android10/java-code-styles
 License
 -----------------
 
-    Copyright 2014 Fernando Cejas
+    Copyright 2015 Fernando Cejas
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
