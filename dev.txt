@@ -1,0 +1,22 @@
+----------------------------------------------------------
+New Frodo version (TODO: automate these tasks)
+----------------------------------------------------------
+1. Publish through gradle task:
+- ./gradlew publishFrodo
+
+2. Upload pom.xml manually (there is an issue with the publishing plugin) and publish on bintray:
+- https://github.com/novoda/bintray-release
+- https://github.com/novoda/bintray-release/issues/19
+
+3. Delete any local frodo repository and try the plugin with a new clean android project.
+- cd ~/.m2/repository/com/fernandocejas
+- rm -rf frodo/
+
+4. Prepare for the next development version:
+- FrodoPlugin project.dependencies
+- gradle.properties version property
+
+5. Install new version by running either of these tasks:
+- ./install_frodo.sh
+- ./gradlew installFrodoAndroidSample
+----------------------------------------------------------
