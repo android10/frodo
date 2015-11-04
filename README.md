@@ -9,6 +9,8 @@ Frodo for Android
 ```Frodo``` is an android library inspired by Jake Wharton's [Hugo](https://github.com/JakeWharton/hugo), mainly used for logging [RxJava](https://github.com/ReactiveX/RxJava) [Observables](http://reactivex.io/documentation/observable.html) and [Subscribers](http://reactivex.io/RxJava/javadoc/rx/Subscriber.html) outputs on the logcat.
 It generates and weaves code based on annotations only on ```debug``` versions of the application where the plugin is applied, for instance, it is safe to persist any ```Frodo``` annotation in the codebase.
 
+![frodo_hug](https://cloud.githubusercontent.com/assets/1360604/10925718/e7ea4318-8290-11e5-91b4-f2bfbde65319.gif)
+
 <br>
 Main Features
 -----------------
@@ -83,7 +85,7 @@ Under the hoods
 
 [Aspect Oriented Programming in Android](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)
 
-[Presentation AOP + Frodo](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)
+[Presentation AOP + Frodo](https://speakerdeck.com/android10/android-aspect-oriented-programming)
 
 
 <br>
@@ -119,6 +121,7 @@ Code style
 Here you can download and install the java codestyle.
 https://github.com/android10/java-code-styles
 
+
 <br>
 License
 -----------------
@@ -139,4 +142,3 @@ License
 
 
 ![http://www.fernandocejas.com](http://www.android10.org/myimages/android10_logo_big_github.png)
- 
