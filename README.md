@@ -83,6 +83,8 @@ apply plugin: 'com.fernandocejas.frodo
 Under the hoods
 -----------------
 
+[Debugging RxJava on Android](http://fernandocejas.com/2015/11/05/debugging-rxjava-on-android/)
+
 [Aspect Oriented Programming in Android](http://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)
 
 [Presentation AOP + Frodo](https://speakerdeck.com/android10/android-aspect-oriented-programming)
