@@ -75,7 +75,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.fernandocejas.frodo
+apply plugin: 'com.fernandocejas.frodo'
 ```
 
 
