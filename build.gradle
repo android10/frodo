@@ -77,7 +77,8 @@ task publishFrodoApi(type: Exec, dependsOn: ['frodo-api:javadocJar']) {
       "-PdryRun=false"
 }
 
-task publishFrodoRuntime(type: Exec) {
+task publishFrodoRuntime(type: Exec,
+    dependsOn: ['frodo-runtime:androidSourcesJar', 'frodo-runtime:androidJavadocsJar']) {
   description = 'Publishes Frodo Core Runtime Library.'
   commandLine "./gradlew", "-p", "frodo-runtime/", "build", "bintrayUpload",
       "-PbintrayUser=$System.env.BINTRAY_USERNAME",
