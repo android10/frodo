@@ -8,6 +8,9 @@ New Frodo version (TODO: automate these tasks)
 - https://github.com/novoda/bintray-release
 - https://github.com/novoda/bintray-release/issues/19
 
+3. Upload javadoc and sources manually on bintray for frodo-runtime:
+- https://bintray.com/android10/maven
+
 3. Delete any local frodo repository and try the plugin with a new clean android project.
 - cd ~/.m2/repository/com/fernandocejas
 - rm -rf frodo/
