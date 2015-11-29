@@ -26,6 +26,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 dependencies {
+  compile "org.jetbrains:annotations:$project.annotationsVersion"
   compile "org.aspectj:aspectjrt:$project.aspectjVersion"
   compile "io.reactivex:rxjava:$project.rxJavaVersion"
   compile project(':frodo-api')
