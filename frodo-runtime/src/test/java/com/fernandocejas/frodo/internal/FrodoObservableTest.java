@@ -49,7 +49,7 @@ public class FrodoObservableTest {
   public void shouldPrintObservableInfo() throws Throwable {
     frodoObservable.getObservable();
 
-    verify(messageManager).printObservableInfo(any(FrodoObservable.ObservableInfo.class));
+    verify(messageManager).printObservableInfo(any(ObservableInfo.class));
   }
 
   @Test
@@ -66,14 +66,14 @@ public class FrodoObservableTest {
   public void shouldLogObservable() throws Throwable {
     frodoObservable.getObservable().subscribe(subscriber);
 
-    verify(messageManager).printObservableOnSubscribe(any(FrodoObservable.ObservableInfo.class),
+    verify(messageManager).printObservableOnSubscribe(any(ObservableInfo.class),
         anyString());
-    verify(messageManager).printObservableOnNext(any(FrodoObservable.ObservableInfo.class),
+    verify(messageManager).printObservableOnNext(any(ObservableInfo.class),
         anyString());
-    verify(messageManager).printObservableOnCompleted(any(FrodoObservable.ObservableInfo.class));
-    verify(messageManager).printObservableOnUnsubscribe(any(FrodoObservable.ObservableInfo.class),
+    verify(messageManager).printObservableOnCompleted(any(ObservableInfo.class));
+    verify(messageManager).printObservableOnUnsubscribe(any(ObservableInfo.class),
         anyString());
-    verify(messageManager).printObservableOnTerminate(any(FrodoObservable.ObservableInfo.class),
+    verify(messageManager).printObservableOnTerminate(any(ObservableInfo.class),
         anyLong(), anyInt());
   }
 }

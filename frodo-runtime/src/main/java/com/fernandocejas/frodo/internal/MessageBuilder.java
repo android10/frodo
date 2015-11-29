@@ -46,7 +46,7 @@ class MessageBuilder {
   MessageBuilder() {
   }
 
-  String buildObservableInfoMessage(FrodoObservable.ObservableInfo observableInfo) {
+  String buildObservableInfoMessage(ObservableInfo observableInfo) {
     final FrodoJoinPoint joinPoint = observableInfo.getJoinPoint();
     StringBuilder message = new StringBuilder(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
@@ -63,7 +63,7 @@ class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableOnSubscribeMessage(FrodoObservable.ObservableInfo observableInfo,
+  String buildObservableOnSubscribeMessage(ObservableInfo observableInfo,
       String threadName) {
     StringBuilder message = new StringBuilder(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
@@ -80,7 +80,7 @@ class MessageBuilder {
     return message.toString();
   }
 
-  <T> String buildObservableOnNextMessage(FrodoObservable.ObservableInfo observableInfo, T value) {
+  <T> String buildObservableOnNextMessage(ObservableInfo observableInfo, T value) {
     StringBuilder message = new StringBuilder(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
     message.append(OBSERVABLE_LABEL);
@@ -95,7 +95,7 @@ class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableOnErrorMessage(FrodoObservable.ObservableInfo observableInfo,
+  String buildObservableOnErrorMessage(ObservableInfo observableInfo,
       String errorMessage) {
     StringBuilder message = new StringBuilder(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
@@ -113,7 +113,7 @@ class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableOnCompletedMessage(FrodoObservable.ObservableInfo observableInfo) {
+  String buildObservableOnCompletedMessage(ObservableInfo observableInfo) {
     StringBuilder message = new StringBuilder(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
     message.append(OBSERVABLE_LABEL);
@@ -126,7 +126,7 @@ class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableOnTerminateMessage(FrodoObservable.ObservableInfo observableInfo,
+  String buildObservableOnTerminateMessage(ObservableInfo observableInfo,
       String executionTimeMillis, int emittedElements) {
     StringBuilder message = new StringBuilder(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
@@ -148,7 +148,7 @@ class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableOnUnsubscribeMessage(FrodoObservable.ObservableInfo observableInfo,
+  String buildObservableOnUnsubscribeMessage(ObservableInfo observableInfo,
       String threadName) {
     StringBuilder message = new StringBuilder(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
