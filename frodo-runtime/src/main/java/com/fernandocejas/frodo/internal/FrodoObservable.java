@@ -1,6 +1,6 @@
 package com.fernandocejas.frodo.internal;
 
-import android.util.Log;
+import com.fernandocejas.frodo.core.annotations.VisibleForTesting;
 import com.fernandocejas.frodo.core.strings.Strings;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
 import rx.Notification;
@@ -12,6 +12,7 @@ public class FrodoObservable {
 
   private final FrodoProceedingJoinPoint joinPoint;
   private final MessageManager messageManager;
+
   private final ObservableInfo observableInfo;
 
   private String observeOnThread = Strings.EMPTY;
@@ -86,5 +87,10 @@ public class FrodoObservable {
             messageManager.printObservableOnUnsubscribe(observableInfo);
           }
         });
+  }
+
+  @VisibleForTesting
+  ObservableInfo getObservableInfo() {
+    return observableInfo;
   }
 }

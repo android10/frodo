@@ -1,5 +1,6 @@
 package com.fernandocejas.frodo.internal;
 
+import com.fernandocejas.frodo.core.optional.Optional;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
 import com.fernandocejas.frodo.joinpoint.TestJoinPoint;
 import com.fernandocejas.frodo.joinpoint.TestProceedingJoinPoint;
@@ -11,7 +12,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import rx.Observable;
 import rx.observers.TestSubscriber;
+import rx.schedulers.Schedulers;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
@@ -73,5 +76,45 @@ public class FrodoObservableTest {
     verify(messageManager).printObservableItemTimeInfo(any(ObservableInfo.class));
     verify(messageManager).printObservableOnUnsubscribe(any(ObservableInfo.class));
     verify(messageManager).printObservableThreadInfo(any(ObservableInfo.class));
+  }
+
+  @Test
+  public void shouldFillInObservableBasicInfo() throws Throwable {
+    frodoObservable.getObservable().subscribe(subscriber);
+    final ObservableInfo observableInfo = frodoObservable.getObservableInfo();
+
+    assertThat(observableInfo.getClassSimpleName()).isEqualTo(
+        frodoProceedingJoinPoint.getClassSimpleName());
+    assertThat(observableInfo.getJoinPoint()).isEqualTo(frodoProceedingJoinPoint);
+    assertThat(observableInfo.getMethodName()).isEqualTo(frodoProceedingJoinPoint.getMethodName());
+  }
+
+  @Test
+  public void shouldFillInObservableThreadInfo() throws Throwable {
+    frodoObservable.getObservable()
+        .subscribeOn(Schedulers.immediate())
+        .observeOn(Schedulers.immediate())
+        .subscribe(subscriber);
+    final ObservableInfo observableInfo = frodoObservable.getObservableInfo();
+    final Optional<String> subscribeOnThread = observableInfo.getSubscribeOnThread();
+    final Optional<String> observeOnThread = observableInfo.getObserveOnThread();
+    final String currentThreadName = Thread.currentThread().getName();
+
+    assertThat(subscribeOnThread.isPresent()).isTrue();
+    assertThat(observeOnThread.isPresent()).isTrue();
+    assertThat(subscribeOnThread.get()).isEqualTo(currentThreadName);
+    assertThat(observeOnThread.get()).isEqualTo(currentThreadName);
+  }
+
+  @Test
+  public void shouldFillInObservableItemsInfo() throws Throwable {
+    frodoObservable.getObservable().subscribe(subscriber);
+    final ObservableInfo observableInfo = frodoObservable.getObservableInfo();
+    final Optional<Integer> totalEmittedItems = observableInfo.getTotalEmittedItems();
+    final Optional<Long> totalExecutionTime = observableInfo.getTotalExecutionTime();
+
+    assertThat(totalEmittedItems.isPresent()).isTrue();
+    assertThat(totalExecutionTime.isPresent()).isTrue();
+    assertThat(totalEmittedItems.get()).isEqualTo(1);
   }
 }

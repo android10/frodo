@@ -33,10 +33,10 @@ public class ObservableInfoTest {
 
   @Test
   public void shouldReturnAbsentValues() {
-    Optional<String> optionalSubscribeOnThread = observableInfo.getSubscribeOnThread();
-    Optional<String> optionalObserveOnThread = observableInfo.getObserveOnThread();
-    Optional<Long> optionalTotalExecutionTime = observableInfo.getTotalExecutionTime();
-    Optional<Integer> optionalTotalEmittedItems = observableInfo.getTotalEmittedItems();
+    final Optional<String> optionalSubscribeOnThread = observableInfo.getSubscribeOnThread();
+    final Optional<String> optionalObserveOnThread = observableInfo.getObserveOnThread();
+    final Optional<Long> optionalTotalExecutionTime = observableInfo.getTotalExecutionTime();
+    final Optional<Integer> optionalTotalEmittedItems = observableInfo.getTotalEmittedItems();
 
     assertThat(optionalSubscribeOnThread.isPresent()).isFalse();
     assertThat(optionalObserveOnThread.isPresent()).isFalse();
@@ -51,10 +51,10 @@ public class ObservableInfoTest {
     observableInfo.setTotalExecutionTime(1000);
     observableInfo.setTotalEmittedItems(5);
 
-    Optional<String> optionalSubscribeOnThread = observableInfo.getSubscribeOnThread();
-    Optional<String> optionalObserveOnThread = observableInfo.getObserveOnThread();
-    Optional<Long> optionalTotalExecutionTime = observableInfo.getTotalExecutionTime();
-    Optional<Integer> optionalTotalEmittedItems = observableInfo.getTotalEmittedItems();
+    final Optional<String> optionalSubscribeOnThread = observableInfo.getSubscribeOnThread();
+    final Optional<String> optionalObserveOnThread = observableInfo.getObserveOnThread();
+    final Optional<Long> optionalTotalExecutionTime = observableInfo.getTotalExecutionTime();
+    final Optional<Integer> optionalTotalEmittedItems = observableInfo.getTotalEmittedItems();
 
     assertThat(optionalSubscribeOnThread.isPresent()).isTrue();
     assertThat(optionalObserveOnThread.isPresent()).isTrue();
