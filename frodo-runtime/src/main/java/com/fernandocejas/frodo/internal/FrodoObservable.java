@@ -1,7 +1,10 @@
 package com.fernandocejas.frodo.internal;
 
-import com.fernandocejas.frodo.joinpoint.FrodoJoinPoint;
+import android.util.Log;
+import com.fernandocejas.frodo.core.strings.Strings;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
+import rx.Notification;
+import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
 
@@ -10,6 +13,8 @@ public class FrodoObservable {
   private final FrodoProceedingJoinPoint joinPoint;
   private final MessageManager messageManager;
   private final ObservableInfo observableInfo;
+
+  private String observeOnThread = Strings.EMPTY;
 
   public FrodoObservable(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager) {
     this.joinPoint = joinPoint;
@@ -25,20 +30,27 @@ public class FrodoObservable {
   @SuppressWarnings("unchecked")
   private <T> rx.Observable<T> logObservable(T type) throws Throwable {
     final StopWatch stopWatch = new StopWatch();
-    final Counter emittedElements = new Counter(joinPoint.getMethodName());
-    return ((rx.Observable<T>) joinPoint.proceed())
+    final Counter emittedItems = new Counter(joinPoint.getMethodName());
+    return ((Observable<T>) joinPoint.proceed())
         .doOnSubscribe(new Action0() {
           @Override
           public void call() {
             stopWatch.start();
-            messageManager.printObservableOnSubscribe(observableInfo,
-                Thread.currentThread().getName());
+            messageManager.printObservableOnSubscribe(observableInfo);
+          }
+        })
+        .doOnEach(new Action1<Notification<? super T>>() {
+          @Override public void call(Notification<? super T> notification) {
+            if (!observableInfo.getSubscribeOnThread().isPresent()
+                && (notification.isOnNext() || notification.isOnError())) {
+              observableInfo.setSubscribeOnThread(Thread.currentThread().getName());
+            }
           }
         })
         .doOnNext(new Action1<T>() {
           @Override
           public void call(T value) {
-            emittedElements.increment();
+            emittedItems.increment();
             messageManager.printObservableOnNext(observableInfo, value);
           }
         })
@@ -54,40 +66,25 @@ public class FrodoObservable {
             messageManager.printObservableOnCompleted(observableInfo);
           }
         })
-        .doOnUnsubscribe(new Action0() {
-          @Override
-          public void call() {
-            messageManager.printObservableOnUnsubscribe(observableInfo, Thread.currentThread().getName());
-          }
-        })
         .doOnTerminate(new Action0() {
           @Override
           public void call() {
             stopWatch.stop();
-            messageManager.printObservableOnTerminate(observableInfo,
-                stopWatch.getTotalTimeMillis(),
-                emittedElements.tally());
+            observableInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
+            observableInfo.setTotalEmittedItems(emittedItems.tally());
+            messageManager.printObservableOnTerminate(observableInfo);
+            messageManager.printObservableItemTimeInfo(observableInfo);
+          }
+        })
+        .doOnUnsubscribe(new Action0() {
+          @Override
+          public void call() {
+            if (!observableInfo.getObserveOnThread().isPresent()) {
+              observableInfo.setObserveOnThread(Thread.currentThread().getName());
+            }
+            messageManager.printObservableThreadInfo(observableInfo);
+            messageManager.printObservableOnUnsubscribe(observableInfo);
           }
         });
-  }
-
-  class ObservableInfo {
-    private final FrodoJoinPoint joinPoint;
-
-    ObservableInfo(FrodoJoinPoint joinPoint) {
-      this.joinPoint = joinPoint;
-    }
-
-    String getClassSimpleName() {
-      return joinPoint.getClassSimpleName();
-    }
-
-    String getMethodName() {
-      return joinPoint.getMethodName();
-    }
-
-    public FrodoJoinPoint getJoinPoint() {
-      return joinPoint;
-    }
   }
 }

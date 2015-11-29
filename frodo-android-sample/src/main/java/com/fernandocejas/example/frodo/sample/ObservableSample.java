@@ -1,10 +1,13 @@
 package com.fernandocejas.example.frodo.sample;
 
+import android.util.Log;
 import com.fernandocejas.frodo.annotation.RxLogObservable;
 import java.util.Arrays;
 import java.util.List;
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Func0;
+import rx.schedulers.Schedulers;
 
 public class ObservableSample {
   public ObservableSample() {
@@ -28,6 +31,24 @@ public class ObservableSample {
   @RxLogObservable
   public Observable<List<MyDummyClass>> list() {
     return Observable.just(buildDummyList());
+  }
+
+  @RxLogObservable
+  public Observable<String> stringItemWithDefer() {
+    return Observable.defer(new Func0<Observable<String>>() {
+      @Override public Observable<String> call() {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+          @Override public void call(Subscriber<? super String> subscriber) {
+            try {
+              subscriber.onNext("String item Three");
+              subscriber.onCompleted();
+            } catch (Exception e) {
+              subscriber.onError(e);
+            }
+          }
+        }).subscribeOn(Schedulers.computation());
+      }
+    });
   }
 
   /**

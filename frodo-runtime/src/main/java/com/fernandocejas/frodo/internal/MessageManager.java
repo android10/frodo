@@ -23,10 +23,8 @@ public class MessageManager {
     this.printMessage(observableInfo.getClassSimpleName(), message);
   }
 
-  public void printObservableOnSubscribe(ObservableInfo observableInfo,
-      String threadName) {
-    final String message =
-        messageBuilder.buildObservableOnSubscribeMessage(observableInfo, threadName);
+  public void printObservableOnSubscribe(ObservableInfo observableInfo) {
+    final String message = messageBuilder.buildObservableOnSubscribeMessage(observableInfo);
     this.printMessage(observableInfo.getClassSimpleName(), message);
   }
 
@@ -47,18 +45,13 @@ public class MessageManager {
     this.printMessage(observableInfo.getClassSimpleName(), message);
   }
 
-  public void printObservableOnTerminate(ObservableInfo observableInfo,
-      long executionTimeMillis,
-      int emittedElements) {
-    final String message = messageBuilder.buildObservableOnTerminateMessage(observableInfo,
-        String.valueOf(executionTimeMillis), emittedElements);
+  public void printObservableOnTerminate(ObservableInfo observableInfo) {
+    final String message = messageBuilder.buildObservableOnTerminateMessage(observableInfo);
     this.printMessage(observableInfo.getClassSimpleName(), message);
   }
 
-  public void printObservableOnUnsubscribe(ObservableInfo observableInfo,
-      String threadName) {
-    final String message =
-        messageBuilder.buildObservableOnUnsubscribeMessage(observableInfo, threadName);
+  public void printObservableOnUnsubscribe(ObservableInfo observableInfo) {
+    final String message = messageBuilder.buildObservableOnUnsubscribeMessage(observableInfo);
     this.printMessage(observableInfo.getClassSimpleName(), message);
   }
 
@@ -97,5 +90,18 @@ public class MessageManager {
   public void printSubscriberUnsubscribe(String subscriberName) {
     final String message = messageBuilder.buildSubscriberUnsubscribeMessage(subscriberName);
     this.printMessage(subscriberName, message);
+  }
+
+  public void printObservableItemTimeInfo(ObservableInfo observableInfo) {
+    final String message = messageBuilder.buildObservableItemTimeInfoMessage(observableInfo);
+    this.printMessage(observableInfo.getClassSimpleName(), message);
+  }
+
+  public void printObservableThreadInfo(ObservableInfo observableInfo) {
+    if (observableInfo.getSubscribeOnThread().isPresent() ||
+        observableInfo.getObserveOnThread().isPresent()) {
+      final String message = messageBuilder.buildObservableThreadInfoMessage(observableInfo);
+      this.printMessage(observableInfo.getClassSimpleName(), message);
+    }
   }
 }
