@@ -26,7 +26,7 @@ public class SamplesActivity extends Activity {
 
       observableSample.stringItemWithDefer()
           .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(new MySubscriber());
+          .subscribe();
 
       observableSample.numbers()
           .subscribeOn(Schedulers.newThread())

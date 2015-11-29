@@ -44,14 +44,11 @@ class MessageBuilder {
   private static final String LABEL_ELEMENT_SINGULAR = " element";
   private static final String LABEL_ELEMENT_PLURAL = " elements";
 
-  MessageBuilder() {
-  }
+  MessageBuilder() {}
 
   String buildObservableInfoMessage(ObservableInfo observableInfo) {
     final FrodoJoinPoint joinPoint = observableInfo.getJoinPoint();
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    final StringBuilder message = buildObservableSB();
     message.append(SEPARATOR);
     message.append(CLASS_LABEL);
     message.append(observableInfo.getClassSimpleName());
@@ -65,9 +62,7 @@ class MessageBuilder {
   }
 
   String buildObservableOnSubscribeMessage(ObservableInfo observableInfo) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
     message.append(observableInfo.getMethodName());
     message.append(VALUE_SEPARATOR);
@@ -78,9 +73,7 @@ class MessageBuilder {
   }
 
   <T> String buildObservableOnNextMessage(ObservableInfo observableInfo, T value) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
     message.append(observableInfo.getMethodName());
     message.append(VALUE_SEPARATOR);
@@ -93,9 +86,7 @@ class MessageBuilder {
   }
 
   String buildObservableOnErrorMessage(ObservableInfo observableInfo, String errorMessage) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
     message.append(observableInfo.getMethodName());
     message.append(VALUE_SEPARATOR);
@@ -110,9 +101,7 @@ class MessageBuilder {
   }
 
   String buildObservableOnCompletedMessage(ObservableInfo observableInfo) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
     message.append(observableInfo.getMethodName());
     message.append(VALUE_SEPARATOR);
@@ -123,9 +112,7 @@ class MessageBuilder {
   }
 
   String buildObservableOnTerminateMessage(ObservableInfo observableInfo) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
     message.append(observableInfo.getMethodName());
     message.append(VALUE_SEPARATOR);
@@ -135,11 +122,8 @@ class MessageBuilder {
     return message.toString();
   }
 
-
   String buildObservableOnUnsubscribeMessage(ObservableInfo observableInfo) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
     message.append(observableInfo.getMethodName());
     message.append(VALUE_SEPARATOR);
@@ -150,9 +134,7 @@ class MessageBuilder {
   }
 
   String buildSubscriberOnStartMessage(String subscriberName) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(SUBSCRIBER_LABEL);
+    final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
     message.append(subscriberName);
     message.append(VALUE_SEPARATOR);
@@ -162,11 +144,8 @@ class MessageBuilder {
     return message.toString();
   }
 
-  String buildSubscriberOnNextMessage(String subscriberName, String value,
-      String threadName) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(SUBSCRIBER_LABEL);
+  String buildSubscriberOnNextMessage(String subscriberName, String value, String threadName) {
+    final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
     message.append(subscriberName);
     message.append(VALUE_SEPARATOR);
@@ -182,11 +161,8 @@ class MessageBuilder {
   }
 
   String buildSubscriberOnErrorMessage(String subscriberName, String error,
-      long executionTimeMillis,
-      int receivedItems) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(SUBSCRIBER_LABEL);
+      long executionTimeMillis, int receivedItems) {
+    final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
     message.append(subscriberName);
     message.append(VALUE_SEPARATOR);
@@ -208,9 +184,7 @@ class MessageBuilder {
 
   String buildSubscriberOnCompletedMessage(String subscriberName, long executionTimeMillis,
       int receivedItems) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(SUBSCRIBER_LABEL);
+    final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
     message.append(subscriberName);
     message.append(VALUE_SEPARATOR);
@@ -229,9 +203,7 @@ class MessageBuilder {
   }
 
   String buildSubscriberRequestedItemsMessage(String subscriberName, long requestedItems) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(SUBSCRIBER_LABEL);
+    final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
     message.append(subscriberName);
     message.append(VALUE_SEPARATOR);
@@ -244,9 +216,7 @@ class MessageBuilder {
   }
 
   String buildSubscriberUnsubscribeMessage(String subscriberName) {
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(SUBSCRIBER_LABEL);
+    final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
     message.append(subscriberName);
     message.append(VALUE_SEPARATOR);
@@ -259,10 +229,7 @@ class MessageBuilder {
   String buildObservableItemTimeInfoMessage(ObservableInfo observableInfo) {
     final int totalEmittedItems = observableInfo.getTotalEmittedItems().or(0);
     final long totalExecutionTime = observableInfo.getTotalExecutionTime().or(0L);
-
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
     message.append(observableInfo.getMethodName());
     message.append(VALUE_SEPARATOR);
@@ -281,10 +248,7 @@ class MessageBuilder {
   String buildObservableThreadInfoMessage(ObservableInfo observableInfo) {
     final Optional<String> subscribeOnThread = observableInfo.getSubscribeOnThread();
     final Optional<String> observeOnThread = observableInfo.getObserveOnThread();
-
-    StringBuilder message = new StringBuilder(LIBRARY_LABEL);
-    message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
     message.append(observableInfo.getMethodName());
     message.append(VALUE_SEPARATOR);
@@ -302,8 +266,27 @@ class MessageBuilder {
     return message.toString();
   }
 
+  private StringBuilder buildSubscriberSB() {
+    final int avgStringSize = 75;
+    final StringBuilder message = new StringBuilder(avgStringSize + LIBRARY_LABEL.length());
+    message.append(LIBRARY_LABEL);
+    message.append(LOG_ENCLOSING_OPEN);
+    message.append(SUBSCRIBER_LABEL);
+    return message;
+  }
+
+  private StringBuilder buildObservableSB() {
+    final int avgStringSize = 75;
+    final StringBuilder message = new StringBuilder(avgStringSize + LIBRARY_LABEL.length());
+    message.append(LIBRARY_LABEL);
+    message.append(LOG_ENCLOSING_OPEN);
+    message.append(OBSERVABLE_LABEL);
+    return message;
+  }
+
   private String buildMethodSignatureWithValues(FrodoJoinPoint joinPoint) {
-    StringBuilder stringBuilder = new StringBuilder();
+    final int avg = 30;
+    final StringBuilder stringBuilder = new StringBuilder(avg + joinPoint.getMethodName().length());
     stringBuilder.append("(");
     List<String> methodParamNames = joinPoint.getMethodParamNamesList();
     if (methodParamNames != null && !methodParamNames.isEmpty()) {
