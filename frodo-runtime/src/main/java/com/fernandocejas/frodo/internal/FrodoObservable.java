@@ -89,8 +89,7 @@ public class FrodoObservable {
         });
   }
 
-  @VisibleForTesting
-  ObservableInfo getObservableInfo() {
+  @VisibleForTesting ObservableInfo getObservableInfo() {
     return observableInfo;
   }
 }
