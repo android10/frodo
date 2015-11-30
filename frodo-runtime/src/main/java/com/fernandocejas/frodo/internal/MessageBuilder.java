@@ -160,8 +160,7 @@ class MessageBuilder {
     return message.toString();
   }
 
-  String buildSubscriberOnErrorMessage(String subscriberName, String error,
-      long executionTimeMillis, int receivedItems) {
+  String buildSubscriberOnErrorMessage(String subscriberName, String error) {
     final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
     message.append(subscriberName);
@@ -169,27 +168,28 @@ class MessageBuilder {
     message.append(LABEL_SUBSCRIBER_ON_ERROR);
     message.append(VALUE_SEPARATOR);
     message.append(error);
-    message.append(SEPARATOR);
-    message.append(RECEIVED_ELEMENTS_LABEL);
-    message.append(receivedItems);
-    message.append(receivedItems == 1 ? LABEL_ELEMENT_SINGULAR : LABEL_ELEMENT_PLURAL);
-    message.append(SEPARATOR);
-    message.append(TIME_LABEL);
-    message.append(executionTimeMillis);
-    message.append(TIME_MILLIS);
     message.append(LOG_ENCLOSING_CLOSE);
 
     return message.toString();
   }
 
-  String buildSubscriberOnCompletedMessage(String subscriberName, long executionTimeMillis,
-      int receivedItems) {
+  String buildSubscriberOnCompletedMessage(String subscriberName) {
     final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
     message.append(subscriberName);
     message.append(VALUE_SEPARATOR);
     message.append(LABEL_SUBSCRIBER_ON_COMPLETED);
+    message.append(LOG_ENCLOSING_CLOSE);
+
+    return message.toString();
+  }
+
+  String buildSubscriberItemTimeMessage(String subscriberName, long executionTimeMillis,
+      int receivedItems) {
+    final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
+    message.append(subscriberName);
+    message.append(VALUE_SEPARATOR);
     message.append(RECEIVED_ELEMENTS_LABEL);
     message.append(receivedItems);
     message.append(receivedItems == 1 ? LABEL_ELEMENT_SINGULAR : LABEL_ELEMENT_PLURAL);

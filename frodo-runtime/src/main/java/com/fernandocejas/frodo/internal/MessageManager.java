@@ -68,17 +68,24 @@ public class MessageManager {
 
   public void printSubscriberOnError(String subscriberName, String error, long executionTimeMillis,
       int receivedItems) {
-    final String message =
-        messageBuilder.buildSubscriberOnErrorMessage(subscriberName, error, executionTimeMillis,
+    final String itemTimeMessage =
+        messageBuilder.buildSubscriberItemTimeMessage(subscriberName, executionTimeMillis,
             receivedItems);
-    this.printMessage(subscriberName, message);
+    final String onErrorMessage =
+        messageBuilder.buildSubscriberOnErrorMessage(subscriberName, error);
+    this.printMessage(subscriberName, itemTimeMessage);
+    this.printMessage(subscriberName, onErrorMessage);
   }
 
   public void printSubscriberOnCompleted(String subscriberName, long executionTimeMillis,
       int receivedItems) {
-    final String message = messageBuilder.buildSubscriberOnCompletedMessage(subscriberName,
-        executionTimeMillis, receivedItems);
-    this.printMessage(subscriberName, message);
+    final String itemTimeMessage =
+        messageBuilder.buildSubscriberItemTimeMessage(subscriberName, executionTimeMillis,
+            receivedItems);
+    final String onCompleteMessage =
+        messageBuilder.buildSubscriberOnCompletedMessage(subscriberName);
+    this.printMessage(subscriberName, itemTimeMessage);
+    this.printMessage(subscriberName, onCompleteMessage);
   }
 
   public void printSubscriberRequestedItems(String subscriberName, long requestedItems) {
