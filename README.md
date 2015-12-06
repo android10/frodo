@@ -26,9 +26,7 @@ Main Features
     }
 ```
 <br>
-@RxLogObservable.Scope Options
------------------
-It is possible to narrow down the debug information shown by adding a debugging scope to @RxLogObservable annotation. 
+- **@RxLogObservable.Scope Options:** It is possible to narrow down the debug information shown by adding a debugging scope to @RxLogObservable annotation. 
 
 - **Scope.EVERYTHING:** Logs stream data, schedulers and rx.Observable events. Default.
 - **Scope.STREAM:** Logs rx.Observable emitted items plus total execution time.
