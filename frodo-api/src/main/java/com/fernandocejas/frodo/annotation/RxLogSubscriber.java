@@ -8,8 +8,7 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 
 /**
  * <br>Annotated classes which are of type rx.Subscriber will print the following information on
- * android logcat when receiving items from an rx.Observable.
- * A {@link Scope} option can be passed to choose different logging scopes.<br>
+ * android logcat when receiving items from an rx.Observable.<br>
  *
  * <br>OUTPUT EXAMPLE:<br>
  *
@@ -27,16 +26,4 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 @Retention(CLASS)
 @Target({ TYPE })
 public @interface RxLogSubscriber {
-  Scope value() default Scope.EVERYTHING;
-
-  /**
-   * Logging scope of the current annotated rx.Subscriber.<br>
-   *
-   * <li>{@link #EVERYTHING}: Logs stream data, scheduler and rx.Subscriber events. Default.</li>
-   * <li>{@link #STREAM}: Logs rx.Subscribers received items plus total execution time.</li>
-   * <li>{@link #SCHEDULER}: Logs scheduler where the annotated rx.Subscriber operates on.</li>
-   * <li>{@link #EVENTS}: Logs rx.Subscriber events only.</li>
-   * <li>{@link #NOTHING}: Turns off logging for the annotated rx.Subscriber.</li>
-   */
-  enum Scope { EVERYTHING, STREAM, SCHEDULER, EVENTS, NOTHING }
 }
