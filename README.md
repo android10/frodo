@@ -28,11 +28,11 @@ Main Features
 <br>
 - **@RxLogObservable.Scope Options:** It is possible to narrow down the debug information shown by adding a debugging scope to @RxLogObservable annotation. 
 
-- **Scope.EVERYTHING:** Logs stream data, schedulers and rx.Observable events. Default.
-- **Scope.STREAM:** Logs rx.Observable emitted items plus total execution time.
-- **Scope.SCHEDULERS:** Logs schedulers where the annotated rx.Observable operates on.
-- **Scope.EVENTS:** Logs rx.Observable events only.
-- **Scope.NOTHING:** Turns off logging for the annotated rx.Observable.
+     -  **Scope.EVERYTHING:** Logs stream data, schedulers and rx.Observable events. Default.
+     -  **Scope.STREAM:** Logs rx.Observable emitted items plus total execution time.
+     -  **Scope.SCHEDULERS:** Logs schedulers where the annotated rx.Observable operates on.
+     -  **Scope.EVENTS:** Logs rx.Observable events only.
+     -  **Scope.NOTHING:** Turns off logging for the annotated rx.Observable.
 
 ```java
     @RxLogObservable(Scope.STREAM)
