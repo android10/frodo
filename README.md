@@ -1,6 +1,6 @@
 
 
-Frodo for Android
+Frodo 
 =========================
 
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0) [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
@@ -92,6 +92,28 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'com.fernandocejas.frodo'
 ```
+
+<br>
+Known issues
+-----------------
+
+1 - Multi module setup (application + android library) will not log annotated methods/classes from Android Library Module but will do it on Android Application Module. The reason behind this, is that the Android Gradle Plugin will build all Android Libraries as release versions, for instance, Frodo is not able to weave any code on the annotated methods/classes (Remember that only weaves in debug versions). There is a workaround for forcing debug versions of your Android Libraries (just be careful in case this is forgotten and you end up shipping a version of your app with RxJava Logging enabled) by adding this line in your ```build.gradle``` file:
+
+```java
+android {
+  defaultPublishConfig "debug"
+}
+```
+
+<br>
+Frodo WIKI
+-----------------
+For complete information, features and usage, refer to the [WIKI](https://github.com/android10/frodo/wiki):
+- [@RxLogObservable](https://github.com/android10/frodo/wiki/@RxLogObservable)
+- [@RxLogSubscriber](http://reactivex.io/documentation/observable.html)
+- [Release Notes](https://github.com/android10/frodo/wiki/Release-Notes)
+- [Development](https://github.com/android10/frodo/wiki/Development)
+- [Frodo under the hoods](https://github.com/android10/frodo/wiki/Under-the-hoods)
 
 <br>
 License
