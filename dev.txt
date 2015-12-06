@@ -8,7 +8,9 @@ New Frodo version (TODO: automate these tasks)
 - https://github.com/novoda/bintray-release
 - https://github.com/novoda/bintray-release/issues/19
 
-3. Upload javadoc and sources manually on bintray for frodo-runtime:
+3. Generate and upload javadoc and sources manually on bintray for frodo-runtime:
+- ./gradlew -p frodo-runtime/ androidJavadocsJar
+- ./gradlew -p frodo-runtime/ androidSourcesJar
 - https://bintray.com/android10/maven
 
 3. Delete any local frodo repository and try the plugin with a new clean android project.
@@ -22,11 +24,15 @@ New Frodo version (TODO: automate these tasks)
 - git show v1.4
 - git push origin v1.4
 
-5. Prepare for the next development version:
+5. Release Notes: and description in both Github and Bintray.
+- Frodo wiki on github: https://github.com/android10/frodo/wiki
+- Bintray description: https://bintray.com/android10/maven
+
+6. Prepare for the next development version:
 - FrodoPlugin project.dependencies
 - gradle.properties version property
 
-6. Install new version by running either of these tasks:
+7. Install new version by running either of these tasks:
 - ./install_frodo.sh
 - ./gradlew installFrodoAndroidSample
 ----------------------------------------------------------
