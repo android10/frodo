@@ -24,9 +24,9 @@ class FrodoPlugin implements Plugin<Project> {
     }
 
     project.dependencies {
-      compile "com.fernandocejas.frodo:frodo-api:0.8.2"
+      compile "com.fernandocejas.frodo:frodo-api:0.8.3"
       debugCompile "org.aspectj:aspectjrt:1.8.6"
-      debugCompile "com.fernandocejas.frodo:frodo-runtime:0.8.2"
+      debugCompile "com.fernandocejas.frodo:frodo-runtime:0.8.3"
     }
 
     def variants = getProjectVariants project
