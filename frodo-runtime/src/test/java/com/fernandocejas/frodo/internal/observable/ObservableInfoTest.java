@@ -19,16 +19,13 @@ public class ObservableInfoTest {
 
   private ObservableInfo observableInfo;
 
-  private TestJoinPoint testJoinPoint;
-  private FrodoJoinPoint frodoJoinPoint;
-
   @Before
   public void setUp() {
-    testJoinPoint = new TestJoinPoint.Builder(this.getClass())
+    final TestJoinPoint testJoinPoint = new TestJoinPoint.Builder(this.getClass())
         .withReturnType(Observable.class)
         .withReturnValue(OBSERVABLE_STREAM_VALUE)
         .build();
-    frodoJoinPoint = new FrodoJoinPoint(testJoinPoint);
+    final FrodoJoinPoint frodoJoinPoint = new FrodoJoinPoint(testJoinPoint);
     observableInfo = new ObservableInfo(frodoJoinPoint);
   }
 

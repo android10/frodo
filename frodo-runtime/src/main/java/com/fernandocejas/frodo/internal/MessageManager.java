@@ -30,8 +30,14 @@ public class MessageManager {
     this.printMessage(observableInfo.getClassSimpleName(), message);
   }
 
-  public <T> void printObservableOnNext(ObservableInfo observableInfo, T value) {
-    final String message = messageBuilder.buildObservableOnNextMessage(observableInfo, value);
+  public <T> void printObservableOnNextWithValue(ObservableInfo observableInfo, T value) {
+    final String message =
+        messageBuilder.buildObservableOnNextWithValueMessage(observableInfo, value);
+    this.printMessage(observableInfo.getClassSimpleName(), message);
+  }
+
+  public void printObservableOnNext(ObservableInfo observableInfo) {
+    final String message = messageBuilder.buildObservableOnNextMessage(observableInfo);
     this.printMessage(observableInfo.getClassSimpleName(), message);
   }
 

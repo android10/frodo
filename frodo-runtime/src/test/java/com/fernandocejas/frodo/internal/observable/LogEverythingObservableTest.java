@@ -18,7 +18,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings("unchecked") @RunWith(MockitoJUnitRunner.class)
 public class LogEverythingObservableTest {
 
   @Rule public ObservableRule observableRule = new ObservableRule(this.getClass());
@@ -40,7 +40,7 @@ public class LogEverythingObservableTest {
     loggableObservable.get(observableRule.stringType()).subscribe(subscriber);
 
     verify(messageManager).printObservableOnSubscribe(any(ObservableInfo.class));
-    verify(messageManager).printObservableOnNext(any(ObservableInfo.class), anyString());
+    verify(messageManager).printObservableOnNextWithValue(any(ObservableInfo.class), anyString());
     verify(messageManager).printObservableOnCompleted(any(ObservableInfo.class));
     verify(messageManager).printObservableOnTerminate(any(ObservableInfo.class));
     verify(messageManager).printObservableItemTimeInfo(any(ObservableInfo.class));
@@ -66,6 +66,7 @@ public class LogEverythingObservableTest {
         .subscribeOn(Schedulers.immediate())
         .observeOn(Schedulers.immediate())
         .subscribe(subscriber);
+
     final ObservableInfo observableInfo = loggableObservable.getInfo();
     final Optional<String> subscribeOnThread = observableInfo.getSubscribeOnThread();
     final Optional<String> observeOnThread = observableInfo.getObserveOnThread();
@@ -80,7 +81,7 @@ public class LogEverythingObservableTest {
   @Test
   public void shouldFillInObservableItemsInfo() throws Throwable {
     loggableObservable.get(observableRule.stringType())
-        .delay(1000, TimeUnit.MILLISECONDS)
+        .delay(2, TimeUnit.SECONDS)
         .subscribe(subscriber);
 
     final ObservableInfo observableInfo = loggableObservable.getInfo();

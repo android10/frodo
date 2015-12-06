@@ -39,7 +39,7 @@ import rx.functions.Action1;
           @Override
           public void call(T value) {
             emittedItems.increment();
-            messageManager.printObservableOnNext(observableInfo, value);
+            messageManager.printObservableOnNextWithValue(observableInfo, value);
           }
         })
         .doOnError(new Action1<Throwable>() {

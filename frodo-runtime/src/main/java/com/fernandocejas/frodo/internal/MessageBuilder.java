@@ -73,7 +73,7 @@ class MessageBuilder {
     return message.toString();
   }
 
-  <T> String buildObservableOnNextMessage(ObservableInfo observableInfo, T value) {
+  <T> String buildObservableOnNextWithValueMessage(ObservableInfo observableInfo, T value) {
     final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
     message.append(observableInfo.getMethodName());
@@ -81,6 +81,17 @@ class MessageBuilder {
     message.append(LABEL_OBSERVABLE_ON_NEXT);
     message.append(VALUE_SEPARATOR);
     message.append(String.valueOf(value));
+    message.append(LOG_ENCLOSING_CLOSE);
+
+    return message.toString();
+  }
+
+  String buildObservableOnNextMessage(ObservableInfo observableInfo) {
+    final StringBuilder message = buildObservableSB();
+    message.append(METHOD_SEPARATOR);
+    message.append(observableInfo.getMethodName());
+    message.append(VALUE_SEPARATOR);
+    message.append(LABEL_OBSERVABLE_ON_NEXT);
     message.append(LOG_ENCLOSING_CLOSE);
 
     return message.toString();

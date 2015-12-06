@@ -8,8 +8,11 @@ import rx.Subscriber;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
+import static com.fernandocejas.frodo.annotation.RxLogObservable.Scope.EVENTS;
 import static com.fernandocejas.frodo.annotation.RxLogObservable.Scope.EVERYTHING;
 import static com.fernandocejas.frodo.annotation.RxLogObservable.Scope.NOTHING;
+import static com.fernandocejas.frodo.annotation.RxLogObservable.Scope.SCHEDULERS;
+import static com.fernandocejas.frodo.annotation.RxLogObservable.Scope.STREAM;
 
 public class ObservableSample {
   public ObservableSample() {
@@ -20,7 +23,7 @@ public class ObservableSample {
     return Observable.just(1, 2);
   }
 
-  @RxLogObservable
+  @RxLogObservable(STREAM)
   public Observable<String> names() {
     return Observable.just("Fernando", "Silvia");
   }
@@ -30,12 +33,12 @@ public class ObservableSample {
     return Observable.error(new IllegalArgumentException("My error"));
   }
 
-  @RxLogObservable
+  @RxLogObservable(SCHEDULERS)
   public Observable<List<MyDummyClass>> list() {
     return Observable.just(buildDummyList());
   }
 
-  @RxLogObservable
+  @RxLogObservable(EVENTS)
   public Observable<String> stringItemWithDefer() {
     return Observable.defer(new Func0<Observable<String>>() {
       @Override public Observable<String> call() {
@@ -57,7 +60,7 @@ public class ObservableSample {
    * Nothing should happen here when annotating this method with {@link RxLogObservable}
    * because it does not returns an {@link Observable}.
    */
-  @RxLogObservable
+  @RxLogObservable(NOTHING)
   public List<MyDummyClass> buildDummyList() {
     return Arrays.asList(new MyDummyClass("Batman"), new MyDummyClass("Superman"));
   }
