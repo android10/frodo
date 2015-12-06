@@ -1,9 +1,9 @@
-package com.fernandocejas.frodo.internal;
+package com.fernandocejas.frodo.internal.observable;
 
 import com.fernandocejas.frodo.core.optional.Optional;
 import com.fernandocejas.frodo.joinpoint.FrodoJoinPoint;
 
-class ObservableInfo {
+public class ObservableInfo {
   private final FrodoJoinPoint joinPoint;
 
   private String subscribeOnThread;
@@ -11,38 +11,38 @@ class ObservableInfo {
   private long totalExecutionTime;
   private int totalEmittedItems;
 
-  ObservableInfo(FrodoJoinPoint joinPoint) {
+  public ObservableInfo(FrodoJoinPoint joinPoint) {
     this.joinPoint = joinPoint;
   }
 
-  String getClassSimpleName() {
+  public String getClassSimpleName() {
     return joinPoint.getClassSimpleName();
   }
 
-  String getMethodName() {
+  public String getMethodName() {
     return joinPoint.getMethodName();
   }
 
-  FrodoJoinPoint getJoinPoint() {
+  public FrodoJoinPoint getJoinPoint() {
     return joinPoint;
   }
 
-  Optional<String> getSubscribeOnThread() {
+  public Optional<String> getSubscribeOnThread() {
     return Optional.fromNullable(subscribeOnThread);
   }
 
-  Optional<String> getObserveOnThread() {
+  public Optional<String> getObserveOnThread() {
     return Optional.fromNullable(observeOnThread);
   }
 
-  Optional<Long> getTotalExecutionTime() {
+  public Optional<Long> getTotalExecutionTime() {
     if (totalExecutionTime == 0) {
       return Optional.absent();
     }
     return Optional.of(totalExecutionTime);
   }
 
-  Optional<Integer> getTotalEmittedItems() {
+  public Optional<Integer> getTotalEmittedItems() {
     if (totalEmittedItems == 0) {
       return Optional.absent();
     }

@@ -1,6 +1,5 @@
 package com.fernandocejas.example.frodo.sample;
 
-import android.util.Log;
 import com.fernandocejas.frodo.annotation.RxLogObservable;
 import java.util.Arrays;
 import java.util.List;
@@ -9,11 +8,14 @@ import rx.Subscriber;
 import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
+import static com.fernandocejas.frodo.annotation.RxLogObservable.Scope.EVERYTHING;
+import static com.fernandocejas.frodo.annotation.RxLogObservable.Scope.NOTHING;
+
 public class ObservableSample {
   public ObservableSample() {
   }
 
-  @RxLogObservable
+  @RxLogObservable(EVERYTHING)
   public Observable<Integer> numbers() {
     return Observable.just(1, 2);
   }

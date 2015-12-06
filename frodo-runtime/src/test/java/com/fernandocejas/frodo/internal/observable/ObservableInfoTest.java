@@ -1,6 +1,7 @@
-package com.fernandocejas.frodo.internal;
+package com.fernandocejas.frodo.internal.observable;
 
 import com.fernandocejas.frodo.core.optional.Optional;
+import com.fernandocejas.frodo.internal.observable.ObservableInfo;
 import com.fernandocejas.frodo.joinpoint.FrodoJoinPoint;
 import com.fernandocejas.frodo.joinpoint.TestJoinPoint;
 import org.junit.Before;

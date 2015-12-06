@@ -1,6 +1,7 @@
 package com.fernandocejas.frodo.internal;
 
 import com.fernandocejas.frodo.core.optional.Optional;
+import com.fernandocejas.frodo.internal.observable.ObservableInfo;
 import com.fernandocejas.frodo.joinpoint.FrodoJoinPoint;
 import java.util.List;
 

@@ -1,5 +1,7 @@
 package com.fernandocejas.frodo.internal;
 
+import com.fernandocejas.frodo.internal.observable.ObservableInfo;
+
 public class MessageManager {
 
   private final MessageBuilder messageBuilder;

@@ -1,35 +1,22 @@
-package com.fernandocejas.frodo.internal;
+package com.fernandocejas.frodo.internal.observable;
 
-import com.fernandocejas.frodo.core.annotations.VisibleForTesting;
-import com.fernandocejas.frodo.core.strings.Strings;
+import com.fernandocejas.frodo.internal.Counter;
+import com.fernandocejas.frodo.internal.MessageManager;
+import com.fernandocejas.frodo.internal.StopWatch;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
 import rx.Notification;
 import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
 
-public class FrodoObservable {
+@SuppressWarnings("unchecked") class LogEverythingObservable extends LoggableObservable {
 
-  private final FrodoProceedingJoinPoint joinPoint;
-  private final MessageManager messageManager;
-
-  private final ObservableInfo observableInfo;
-
-  private String observeOnThread = Strings.EMPTY;
-
-  public FrodoObservable(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager) {
-    this.joinPoint = joinPoint;
-    this.messageManager = messageManager;
-    this.observableInfo = new ObservableInfo(joinPoint);
+  LogEverythingObservable(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager,
+      ObservableInfo observableInfo) {
+    super(joinPoint, messageManager, observableInfo);
   }
 
-  public rx.Observable getObservable() throws Throwable {
-    messageManager.printObservableInfo(observableInfo);
-    return logObservable(joinPoint.getGenericReturnTypes().get(0));
-  }
-
-  @SuppressWarnings("unchecked")
-  private <T> rx.Observable<T> logObservable(T type) throws Throwable {
+  @Override <T> Observable<T> get(T type) throws Throwable {
     final StopWatch stopWatch = new StopWatch();
     final Counter emittedItems = new Counter(joinPoint.getMethodName());
     return ((Observable<T>) joinPoint.proceed())
@@ -87,9 +74,5 @@ public class FrodoObservable {
             messageManager.printObservableOnUnsubscribe(observableInfo);
           }
         });
-  }
-
-  @VisibleForTesting ObservableInfo getObservableInfo() {
-    return observableInfo;
   }
 }

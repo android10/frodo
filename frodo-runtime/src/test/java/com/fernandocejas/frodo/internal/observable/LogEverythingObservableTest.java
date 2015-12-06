@@ -1,73 +1,43 @@
-package com.fernandocejas.frodo.internal;
+package com.fernandocejas.frodo.internal.observable;
 
 import com.fernandocejas.frodo.core.optional.Optional;
+import com.fernandocejas.frodo.internal.MessageManager;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
-import com.fernandocejas.frodo.joinpoint.TestJoinPoint;
-import com.fernandocejas.frodo.joinpoint.TestProceedingJoinPoint;
-import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import rx.Observable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
-@SuppressWarnings("unchecked")
 @RunWith(MockitoJUnitRunner.class)
-public class FrodoObservableTest {
+public class LogEverythingObservableTest {
 
-  private static final String OBSERVABLE_STREAM_VALUE = "fernando";
+  @Rule public ObservableRule observableRule = new ObservableRule(this.getClass());
 
-  private FrodoObservable frodoObservable;
-
-  private TestJoinPoint testJoinPoint;
-  private TestProceedingJoinPoint testProceedingJoinPoint;
-  private FrodoProceedingJoinPoint frodoProceedingJoinPoint;
+  private LogEverythingObservable loggableObservable;
   private TestSubscriber subscriber;
 
   @Mock private MessageManager messageManager;
 
   @Before
   public void setUp() {
-    testJoinPoint = new TestJoinPoint.Builder(this.getClass())
-        .withReturnType(Observable.class)
-        .withReturnValue(OBSERVABLE_STREAM_VALUE)
-        .build();
-    testProceedingJoinPoint = new TestProceedingJoinPoint(testJoinPoint);
-    frodoProceedingJoinPoint = new FrodoProceedingJoinPoint(testProceedingJoinPoint);
-    frodoObservable = new FrodoObservable(frodoProceedingJoinPoint, messageManager);
     subscriber = new TestSubscriber();
+    loggableObservable = new LogEverythingObservable(observableRule.joinPoint(), messageManager,
+        observableRule.info());
   }
 
   @Test
-  public void shouldPrintObservableInfo() throws Throwable {
-    frodoObservable.getObservable();
-
-    verify(messageManager).printObservableInfo(any(ObservableInfo.class));
-  }
-
-  @Test
-  public void shouldBuildObservable() throws Throwable {
-    frodoObservable.getObservable().subscribe(subscriber);
-
-    subscriber.assertReceivedOnNext(Collections.singletonList(OBSERVABLE_STREAM_VALUE));
-    subscriber.assertNoErrors();
-    subscriber.assertCompleted();
-    subscriber.assertUnsubscribed();
-  }
-
-  @Test
-  public void shouldLogObservable() throws Throwable {
-    frodoObservable.getObservable().subscribe(subscriber);
+  public void shouldLogEverythingObservable() throws Throwable {
+    loggableObservable.get(observableRule.stringType()).subscribe(subscriber);
 
     verify(messageManager).printObservableOnSubscribe(any(ObservableInfo.class));
     verify(messageManager).printObservableOnNext(any(ObservableInfo.class), anyString());
@@ -80,8 +50,9 @@ public class FrodoObservableTest {
 
   @Test
   public void shouldFillInObservableBasicInfo() throws Throwable {
-    frodoObservable.getObservable().subscribe(subscriber);
-    final ObservableInfo observableInfo = frodoObservable.getObservableInfo();
+    loggableObservable.get(observableRule.stringType()).subscribe(subscriber);
+    final ObservableInfo observableInfo = loggableObservable.getInfo();
+    final FrodoProceedingJoinPoint frodoProceedingJoinPoint = observableRule.joinPoint();
 
     assertThat(observableInfo.getClassSimpleName()).isEqualTo(
         frodoProceedingJoinPoint.getClassSimpleName());
@@ -91,11 +62,11 @@ public class FrodoObservableTest {
 
   @Test
   public void shouldFillInObservableThreadInfo() throws Throwable {
-    frodoObservable.getObservable()
+    loggableObservable.get(observableRule.stringType())
         .subscribeOn(Schedulers.immediate())
         .observeOn(Schedulers.immediate())
         .subscribe(subscriber);
-    final ObservableInfo observableInfo = frodoObservable.getObservableInfo();
+    final ObservableInfo observableInfo = loggableObservable.getInfo();
     final Optional<String> subscribeOnThread = observableInfo.getSubscribeOnThread();
     final Optional<String> observeOnThread = observableInfo.getObserveOnThread();
     final String currentThreadName = Thread.currentThread().getName();
@@ -108,8 +79,11 @@ public class FrodoObservableTest {
 
   @Test
   public void shouldFillInObservableItemsInfo() throws Throwable {
-    frodoObservable.getObservable().subscribe(subscriber);
-    final ObservableInfo observableInfo = frodoObservable.getObservableInfo();
+    loggableObservable.get(observableRule.stringType())
+        .delay(1000, TimeUnit.MILLISECONDS)
+        .subscribe(subscriber);
+
+    final ObservableInfo observableInfo = loggableObservable.getInfo();
     final Optional<Integer> totalEmittedItems = observableInfo.getTotalEmittedItems();
     final Optional<Long> totalExecutionTime = observableInfo.getTotalExecutionTime();
 

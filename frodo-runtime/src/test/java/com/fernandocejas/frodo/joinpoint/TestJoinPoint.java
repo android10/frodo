@@ -103,9 +103,9 @@ public class TestJoinPoint implements JoinPoint {
 
     private Class methodReturnType = Observable.class;
     private String methodReturnValue = "android10";
-    private Class[] methodParameterTypes = new Class[]{};
-    private String[] methodParameterNames = new String[]{};
-    private Object[] methodParameterValues = new Object[]{};
+    private Class[] methodParameterTypes = new Class[] {};
+    private String[] methodParameterNames = new String[] {};
+    private Object[] methodParameterValues = new Object[] {};
 
     public Builder(Class declaringType) {
       this(declaringType, "toString");

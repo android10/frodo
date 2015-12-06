@@ -23,7 +23,7 @@ public class TestProceedingJoinPoint implements ProceedingJoinPoint {
 
     proceedMethodCalled = false;
     proceedMethodCalledWithArgs = false;
-    proceedMethodArgs = new Object[]{};
+    proceedMethodArgs = new Object[] {};
   }
 
   private Object buildReturnType() throws InstantiationException, IllegalAccessException {
@@ -102,6 +102,6 @@ public class TestProceedingJoinPoint implements ProceedingJoinPoint {
     assertThat(proceedMethodCalledWithArgs).isTrue();
     assertThat(proceedMethodArgs).isEqualTo(args);
     proceedMethodCalledWithArgs = false;
-    proceedMethodArgs = new Object[]{};
+    proceedMethodArgs = new Object[] {};
   }
 }
