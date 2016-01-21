@@ -4,7 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.CLASS;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * <br>Annotated methods which return rx.Observables will print the following information on
@@ -25,7 +25,7 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  *
  * @see <a href="https://github.com/android10/frodo/wiki">Frodo Documentation</a>
  */
-@Retention(CLASS)
+@Retention(RUNTIME)
 @Target({ METHOD })
 public @interface RxLogObservable {
   Scope value() default Scope.EVERYTHING;
