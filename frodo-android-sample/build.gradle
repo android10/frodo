@@ -52,9 +52,4 @@ android {
 dependencies {
   compile 'io.reactivex:rxjava:1.0.14'
   compile 'io.reactivex:rxandroid:0.25.0'
-
-  testCompile "junit:junit:$project.junitVersion"
-  testCompile "org.assertj:assertj-core:$project.assertJVersion"
-  testCompile "org.mockito:mockito-core:$project.mockitoVersion"
-  testCompile "org.robolectric:robolectric:$project.robolectricVersion"
 }
