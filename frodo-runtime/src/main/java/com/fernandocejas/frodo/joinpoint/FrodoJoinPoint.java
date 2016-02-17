@@ -45,10 +45,15 @@ public class FrodoJoinPoint {
     this.classCanonicalName = this.methodSignature.getDeclaringType().getCanonicalName();
     this.classSimpleName = this.methodSignature.getDeclaringType().getSimpleName();
     this.methodName = this.methodSignature.getName();
-    this.methodParamTypesList = Arrays.asList(this.methodSignature.getParameterTypes());
-    this.methodParamNamesList = Arrays.asList(this.methodSignature.getParameterNames());
-    this.methodParamValuesList = Arrays.asList(this.joinPoint.getArgs());
     this.executionThreadName = Thread.currentThread().getName();
+    final Class[] parameterTypes = this.methodSignature.getParameterTypes();
+    final String[] parameterNames = this.methodSignature.getParameterNames();
+    final Object[] args = this.joinPoint.getArgs();
+    this.methodParamTypesList = parameterTypes != null ?
+        Arrays.asList(parameterTypes) : Collections.<Class>emptyList();
+    this.methodParamNamesList = parameterNames != null ?
+        Arrays.asList(parameterNames) : Collections.<String>emptyList();
+    this.methodParamValuesList = args != null ? Arrays.asList(args) : Collections.emptyList();
     this.joinPointUniqueName = this.generateJoinPointUniqueName();
   }
 
