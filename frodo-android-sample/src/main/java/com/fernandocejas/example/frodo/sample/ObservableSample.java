@@ -1,5 +1,6 @@
 package com.fernandocejas.example.frodo.sample;
 
+import android.view.View;
 import com.fernandocejas.frodo.annotation.RxLogObservable;
 import java.util.Arrays;
 import java.util.List;
@@ -65,12 +66,28 @@ public class ObservableSample {
     return Arrays.asList(new MyDummyClass("Batman"), new MyDummyClass("Superman"));
   }
 
+  @RxLogObservable
   public Observable<String> strings() {
     return Observable.just("Hello", "My", "Name", "Is", "Fernando");
   }
 
   public Observable<String> stringsWithError() {
     return Observable.error(new IllegalArgumentException("My Subscriber error"));
+  }
+
+  @RxLogObservable
+  public Observable<Void> doSomething(View view) {
+    return Observable.just(null);
+  }
+
+  @RxLogObservable
+  public Observable<String> sendNull() {
+    return Observable.just(null);
+  }
+
+  @RxLogObservable
+  public Observable<Void> doNothing() {
+    return Observable.empty();
   }
 
   public Observable<Integer> numbersBackpressure() {

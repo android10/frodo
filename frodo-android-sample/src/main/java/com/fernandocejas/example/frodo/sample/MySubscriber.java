@@ -17,5 +17,6 @@ public class MySubscriber extends Subscriber<String> {
 
   @Override
   public void onCompleted() {
+    //empty
   }
 }

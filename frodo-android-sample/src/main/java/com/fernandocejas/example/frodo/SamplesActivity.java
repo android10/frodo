@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.fernandocejas.example.frodo.sample.MySubscriber;
 import com.fernandocejas.example.frodo.sample.MySubscriberBackpressure;
+import com.fernandocejas.example.frodo.sample.MySubscriberVoid;
 import com.fernandocejas.example.frodo.sample.ObservableSample;
 import java.util.List;
 import rx.Subscriber;
@@ -76,6 +77,21 @@ public class SamplesActivity extends Activity {
               toastMessage("onNext() List--> " + myDummyClasses.toString());
             }
           });
+
+      observableSample.doNothing()
+          .subscribeOn(Schedulers.newThread())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe();
+
+      observableSample.doSomething(v)
+          .subscribeOn(Schedulers.newThread())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe();
+
+      observableSample.sendNull()
+          .subscribeOn(Schedulers.newThread())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe();
     }
   };
 
@@ -100,6 +116,21 @@ public class SamplesActivity extends Activity {
           .subscribeOn(Schedulers.newThread())
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(new MySubscriberBackpressure());
+
+      observableSample.doNothing()
+          .subscribeOn(Schedulers.newThread())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new MySubscriberVoid());
+
+      observableSample.doSomething(v)
+          .subscribeOn(Schedulers.newThread())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new MySubscriberVoid());
+
+      observableSample.sendNull()
+          .subscribeOn(Schedulers.newThread())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new MySubscriber());
     }
   };
 
