@@ -24,6 +24,11 @@ public class ObservableSample {
     return Observable.just(1, 2);
   }
 
+  @RxLogObservable
+  public Observable<Integer> moreNumbers() {
+    return Observable.just(1, 2, 3, 4);
+  }
+
   @RxLogObservable(STREAM)
   public Observable<String> names() {
     return Observable.just("Fernando", "Silvia");

@@ -39,6 +39,8 @@ public class SamplesActivity extends Activity {
             }
           });
 
+      observableSample.moreNumbers().toList().toBlocking().single();
+
       observableSample.names()
           .subscribeOn(Schedulers.newThread())
           .observeOn(AndroidSchedulers.mainThread())
