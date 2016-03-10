@@ -68,7 +68,7 @@ public class MessageManager {
     this.printMessage(subscriberName, message);
   }
 
-  public void printSubscriberOnNext(String subscriberName, String value, String threadName) {
+  public void printSubscriberOnNext(String subscriberName, Object value, String threadName) {
     final String message =
         messageBuilder.buildSubscriberOnNextMessage(subscriberName, value, threadName);
     this.printMessage(subscriberName, message);

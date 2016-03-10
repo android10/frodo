@@ -78,9 +78,9 @@ public class LogSubscriber {
   public void beforeOnNextExecution(JoinPoint joinPoint) {
     countAndMeasureTime();
     final FrodoJoinPoint frodoJoinPoint = new FrodoJoinPoint(joinPoint);
-    final Object value = frodoJoinPoint.getMethodParamValuesList().get(0);
-    messageManager.printSubscriberOnNext(joinPoint.getTarget().getClass().getSimpleName(),
-        value.toString(),
+    final Object value = frodoJoinPoint.getMethodParamValuesList().isEmpty() ? null
+        : frodoJoinPoint.getMethodParamValuesList().get(0);
+    messageManager.printSubscriberOnNext(joinPoint.getTarget().getClass().getSimpleName(), value,
         Thread.currentThread().getName());
   }
 

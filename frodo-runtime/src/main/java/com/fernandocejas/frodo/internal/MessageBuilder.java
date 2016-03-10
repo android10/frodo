@@ -44,6 +44,7 @@ class MessageBuilder {
   private static final String RECEIVED_ELEMENTS_LABEL = LOG_START + "Received" + VALUE_SEPARATOR;
   private static final String LABEL_ELEMENT_SINGULAR = " element";
   private static final String LABEL_ELEMENT_PLURAL = " elements";
+  private static final String LABEL_MESSAGE_NULL_OBSERVABLES = "You received a null observable";
 
   MessageBuilder() {}
 
@@ -156,14 +157,14 @@ class MessageBuilder {
     return message.toString();
   }
 
-  String buildSubscriberOnNextMessage(String subscriberName, String value, String threadName) {
+  String buildSubscriberOnNextMessage(String subscriberName, Object value, String threadName) {
     final StringBuilder message = buildSubscriberSB();
     message.append(SEPARATOR);
     message.append(subscriberName);
     message.append(VALUE_SEPARATOR);
     message.append(LABEL_SUBSCRIBER_ON_NEXT);
     message.append(VALUE_SEPARATOR);
-    message.append(value);
+    message.append(value != null ? value.toString() : LABEL_MESSAGE_NULL_OBSERVABLES);
     message.append(SEPARATOR);
     message.append(LABEL_SUBSCRIBER_OBSERVE_ON);
     message.append(threadName);
