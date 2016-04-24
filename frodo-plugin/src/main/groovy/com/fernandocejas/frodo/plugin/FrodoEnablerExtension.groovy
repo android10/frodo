@@ -1,6 +1,6 @@
 package com.fernandocejas.frodo.plugin
 
-class FrodoExtension {
+class FrodoEnablerExtension {
   def enabled = true
 
   def setEnabled(boolean enabled) {

@@ -29,7 +29,7 @@ class FrodoPlugin implements Plugin<Project> {
       debugCompile "com.fernandocejas.frodo:frodo-runtime:0.8.3"
     }
 
-    project.extensions.create('frodo', FrodoExtension)
+    project.extensions.create('frodo', FrodoEnablerExtension)
     final def log = project.logger
 
     def variants = getProjectVariants project
