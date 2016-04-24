@@ -36,3 +36,17 @@ New Frodo version (TODO: automate these tasks)
 - ./install_frodo.sh
 - ./gradlew installFrodoAndroidSample
 ----------------------------------------------------------
+
+----------------------------------------------------------
+POSSIBLE ISSUE #1
+----------------------------------------------------------
+- Installing frodo through './install_frodo.sh' can trigger this exception:
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':frodo-runtime:install'.
+> A problem occurred starting process 'command 'mvn''
+
+- Solution: Stop Gradle by executing: './gradlew --stop'
+----------------------------------------------------------
