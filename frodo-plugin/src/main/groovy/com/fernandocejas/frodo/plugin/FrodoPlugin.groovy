@@ -29,10 +29,17 @@ class FrodoPlugin implements Plugin<Project> {
       debugCompile "com.fernandocejas.frodo:frodo-runtime:0.8.3"
     }
 
+    project.extensions.create('frodo', FrodoExtension)
+    final def log = project.logger
+
     def variants = getProjectVariants project
     variants.all { variant ->
       if (!variant.buildType.isDebuggable()) {
+        log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
         return; //Only weaving on Debug version of the app/library.
+      } else if (!project.frodo.enabled) {
+        log.debug("Frodo is not enabled.")
+        return;
       }
 
       JavaCompile javaCompile = variant.javaCompile
@@ -46,7 +53,6 @@ class FrodoPlugin implements Plugin<Project> {
                          "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
 
         final MessageHandler handler = new MessageHandler(true);
-        final def log = project.logger
         new Main().run(args, handler);
         for (IMessage message : handler.getMessages(null, true)) {
           switch (message.getKind()) {
@@ -54,6 +60,9 @@ class FrodoPlugin implements Plugin<Project> {
             case IMessage.ERROR:
             case IMessage.FAIL:
               log.error message.message, message.thrown
+              break;
+            case IMessage.WARNING:
+              log.warn message.message, message.thrown
               break;
             case IMessage.INFO:
               log.info message.message, message.thrown
