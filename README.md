@@ -91,6 +91,12 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.fernandocejas.frodo'
+
+//By default frodo is ON on debug build variants, although
+//we can enable-disable it with this configuration.
+frodo {
+  enabled = true
+}
 ```
 
 <br>
