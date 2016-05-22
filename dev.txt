@@ -19,10 +19,10 @@ New Frodo version (TODO: automate these tasks)
 
 4. Create a tag on github:
 - git tag
-- git tag -a v1.4 -m "my version 1.4"
+- git tag -a v0.8.4 -m "Release version 0.8.4"
 - git tag
-- git show v1.4
-- git push origin v1.4
+- git show v0.8.4
+- git push origin v0.8.4
 
 5. Release Notes: and description in both Github and Bintray.
 - Frodo wiki on github: https://github.com/android10/frodo/wiki
@@ -31,10 +31,13 @@ New Frodo version (TODO: automate these tasks)
 6. Prepare for the next development version:
 - FrodoPlugin project.dependencies
 - gradle.properties version property
+- add new version CHANGELOG.txt file
 
 7. Install new version by running either of these tasks:
 - ./install_frodo.sh
 - ./gradlew installFrodoAndroidSample
+
+8. Promote new version released
 ----------------------------------------------------------
 
 ----------------------------------------------------------
