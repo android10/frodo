@@ -29,8 +29,8 @@ New Frodo version (TODO: automate these tasks)
 - Bintray description: https://bintray.com/android10/maven
 
 6. Prepare for the next development version:
-- FrodoPlugin project.dependencies
-- gradle.properties version property
+- FrodoPlugin class project.dependencies
+- gradle.properties 'version' property
 - add new version CHANGELOG.txt file
 
 7. Install new version by running either of these tasks:
