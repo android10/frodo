@@ -134,4 +134,4 @@ License
     limitations under the License.
 
 
-![http://www.fernandocejas.com](http://www.android10.org/myimages/android10_logo_big_github.png)
+![http://www.fernandocejas.com](https://github.com/android10/Sample-Data/blob/master/android10/android10_logo_big.png)
