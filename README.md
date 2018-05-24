@@ -11,9 +11,8 @@ It generates and weaves code based on annotations only on ```debug``` versions o
 
 ![frodo_hug](https://cloud.githubusercontent.com/assets/1360604/10925718/e7ea4318-8290-11e5-91b4-f2bfbde65319.gif)
 
-<br>
 Main Features
------------------
+=========================
 
 - **@RxLogObservable:** Annotated methods which return ```rx.Observables``` will print the following information when emitting items:
 
@@ -25,7 +24,7 @@ Main Features
         return Observable.just(buildDummyList());
     }
 ```
-<br>
+
 - **@RxLogObservable.Scope Options:** It is possible to narrow down the debug information shown by adding a debugging scope to @RxLogObservable annotation. 
 
      -  **Scope.EVERYTHING:** Logs stream data, schedulers and rx.Observable events. Default.
@@ -41,7 +40,6 @@ Main Features
     }
 ```
 
-<br>
 - **@RxLogSubscriber:** Annotated classes which are of type ```rx.Subscriber``` will print the following information when receiving items from an ```rx.Observable```:
 
 <img width="980" alt="frodo_subscriber" src="https://cloud.githubusercontent.com/assets/1360604/10925010/fa76523e-828a-11e5-8607-1611aef61add.png">
@@ -74,9 +72,8 @@ public class MySubscriberBackpressure extends Subscriber<Integer> {
 }
 ```
 
-<br>
 Enabling Frodo
------------------
+=========================
 To enable Frodo, a gradle plugin must be applied in your ```build.gradle```:
 
 ```java
@@ -99,9 +96,8 @@ frodo {
 }
 ```
 
-<br>
 Known issues
------------------
+=========================
 
 1 - Multi module setup (application + android library) will not log annotated methods/classes from Android Library Module but will do it on Android Application Module. The reason behind this, is that the Android Gradle Plugin will build all Android Libraries as release versions, for instance, Frodo is not able to weave any code on the annotated methods/classes (Remember that only weaves in debug versions). There is a workaround for forcing debug versions of your Android Libraries (just be careful in case this is forgotten and you end up shipping a version of your app with RxJava Logging enabled) by adding this line in your ```build.gradle``` file:
 
@@ -111,9 +107,8 @@ android {
 }
 ```
 
-<br>
 Frodo WIKI
------------------
+=========================
 For complete information, features and usage, refer to the [WIKI](https://github.com/android10/frodo/wiki):
 - [@RxLogObservable](https://github.com/android10/frodo/wiki/@RxLogObservable)
 - [@RxLogSubscriber](https://github.com/android10/frodo/wiki/@RxLogSubscriber)
@@ -121,9 +116,8 @@ For complete information, features and usage, refer to the [WIKI](https://github
 - [Development](https://github.com/android10/frodo/wiki/Development)
 - [Frodo under the hoods](https://github.com/android10/frodo/wiki/Under-the-hoods)
 
-<br>
 License
------------------
+=========================
 
     Copyright 2015 Fernando Cejas
 
